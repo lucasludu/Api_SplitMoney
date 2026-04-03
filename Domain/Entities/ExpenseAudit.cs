@@ -3,7 +3,7 @@ using System;
 
 namespace Domain.Entities
 {
-    public class ExpenseAudit : AuditableBaseEntity
+    public class ExpenseAudit : BaseEntity
     {
         public Guid ExpenseId { get; set; }
         public Expense Expense { get; set; } = null!;

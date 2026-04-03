@@ -5,6 +5,7 @@ using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Application.Specification._expenses;
 
 namespace Application.Features._expenses.Queries.GetExpenseAudit
 {
@@ -30,20 +31,19 @@ namespace Application.Features._expenses.Queries.GetExpenseAudit
             var expense = await _unitOfWork.RepositoryAsync<Expense>().GetByIdAsync(request.ExpenseId);
             if (expense == null) throw new ApiException("Gasto no encontrado.");
 
-            var auditLogs = await _unitOfWork.RepositoryAsync<ExpenseAudit>()
-                .Entities
-                .Include(a => a.ModifiedByUser)
-                .Where(a => a.ExpenseId == request.ExpenseId)
-                .OrderByDescending(a => a.ChangeDate)
-                .Select(a => new ExpenseAuditLogEntry
+            var spec = new AuditsByExpenseSpecification(request.ExpenseId);
+            var auditDetails = await _unitOfWork.RepositoryAsync<ExpenseAudit>()
+                .ListAsync(spec, cancellationToken);
+            
+            var auditLogs = auditDetails.Select(a => new ExpenseAuditLogEntry
                 {
                     Action = a.Action,
                     PreviousValue = a.PreviousValue,
                     NewValue = a.NewValue,
-                    ModifiedBy = $"{a.ModifiedByUser.FirstName} {a.ModifiedByUser.LastName}",
+                    ModifiedBy = $"{a.ModifiedByUser?.FirstName} {a.ModifiedByUser?.LastName}",
                     ChangeDate = a.ChangeDate
                 })
-                .ToListAsync(cancellationToken);
+                .ToList();
 
             return new Response<ExpenseAuditResponse>(new ExpenseAuditResponse
             {

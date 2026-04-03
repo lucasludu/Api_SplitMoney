@@ -1,5 +1,6 @@
 using Application.Wrappers;
 using MediatR;
+using System;
 
 namespace Application.Features._expenses.Queries.GetExpenseAudit
 {

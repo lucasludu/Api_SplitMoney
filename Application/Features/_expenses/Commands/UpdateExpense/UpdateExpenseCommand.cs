@@ -4,6 +4,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Models.Request._expenses;
+using Application.Specification._expenses;
 using System;
 using System.Linq;
 using System.Threading;
@@ -29,10 +30,9 @@ namespace Application.Features.Expenses.Commands.UpdateExpense
             var request = command.Request;
             var userId = _authenticatedUser.UserId;
 
+            var spec = new ExpenseWithSplitsSpecification(request.Id);
             var expense = await _unitOfWork.RepositoryAsync<Expense>()
-                .Entities
-                .Include(e => e.Splits)
-                .FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(spec, cancellationToken);
 
             if (expense == null) return Response<Guid>.Fail("Gasto no encontrado.");
 
