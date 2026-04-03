@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Application.Features._groups.Queries.GetGroupsByUser;
 using Application.Features._groups.Commands.CreateGroup;
+using Application.Features._groups.Commands.CreateSettlement;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,13 @@ namespace WebApi.Controllers.V1
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Post(CreateGroupCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+
+        [HttpPost("settle")]
+        [Authorize]
+        public async Task<IActionResult> PostSettle(CreateSettlementCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
