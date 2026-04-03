@@ -1,0 +1,11 @@
+graph TD
+    A[Inicio: Request con RefreshToken] --> B[Extraer Token de las Cookies/Body]
+    B --> C[AuthService: RefreshTokenAsync]
+    C --> D[Buscar usuario que posea ese Token]
+    D --> E{¿Token existe y está activo?}
+    E -- No --> F[Retornar 401 Unauthorized]
+    E -- Sí --> G[Marcar Token antiguo como Revocado]
+    G --> H[Generar nuevo JWT Access Token]
+    H --> I[Generar nuevo Refresh Token]
+    I --> J[Guardar cambios en DB]
+    J --> K[Retornar Response con ambos Tokens]

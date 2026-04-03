@@ -1,0 +1,10 @@
+graph TD
+    A[Inicio: ExpenseRequest] --> B[Validator: CreateExpenseValidator]
+    B -- Suma de splits != Total --> C[Retornar 400 Validation Error]
+    B -- OK --> D[Handler: CreateExpenseCommandHandler]
+    D --> E{¿Usuario es Premium?}
+    E -- No --> F[Verificar límite de 3 grupos activos]
+    E -- Sí --> G[Saltar restricciones de límites]
+    F & G --> H[BalanceEngine: Calcular deudas netas]
+    H --> I[Persistence: Guardar Gasto + Splits + Settlements]
+    I --> J[Retornar 201 Created]

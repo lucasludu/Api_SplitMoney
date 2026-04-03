@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant C as Cliente
+    participant A as AuthController
+    participant S as AuthService
+    participant D as Database
+
+    C->>A: Login(email, pass)
+    A->>S: LoginUserAsync()
+    S->>D: Validar Credenciales
+    D-->>S: Usuario Válido
+    S->>S: Generar JWT (Expira en 15-60 min)
+    S->>S: Generar Refresh Token (Expira en 7 días)
+    S->>D: Guardar Refresh Token en el Perfil del Usuario
+    S-->>A: LoginResponse(JWT, RefreshToken)
+    A-->>C: 200 OK + Tokens

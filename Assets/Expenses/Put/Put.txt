@@ -1,0 +1,19 @@
+graph TD
+    A[Inicio: UpdateExpenseRequest] --> B[Validator: UpdateExpenseValidator]
+    B -- Datos inválidos --> C[Retornar 400 Validation Error]
+    B -- OK --> D[Handler: UpdateExpenseCommandHandler]
+    D --> E[Obtener Gasto actual con sus Splits desde DB]
+    E --> F{¿Usuario es Premium?}
+    
+    F -- Sí --> G[Capturar Snapshot: Valores anteriores]
+    G --> H[Registrar en tabla ExpenseAudits: Monto/Desc anterior vs nuevo]
+    H --> I[Aplicar cambios al registro]
+    
+    F -- No --> I[Aplicar cambios sin generar Auditoría]
+    
+    I --> J{¿Cambió el Monto o los Splits?}
+    J -- Sí --> K[BalanceEngine: Recalcular Settlements del grupo]
+    J -- No --> L[Persistence: Guardar cambios]
+    
+    K --> L
+    L --> M[Retornar 204 No Content / 200 OK]

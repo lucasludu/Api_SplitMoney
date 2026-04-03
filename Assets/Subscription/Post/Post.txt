@@ -1,0 +1,12 @@
+graph TD
+    A["Inicio: POST /Subscriptions/upgrade"] --> B["Extraer UserId del Token"]
+    B --> C["Mediator: UpgradeToPremiumCommand"]
+    C --> D["Handler: UpgradeToPremiumCommandHandler"]
+    D --> E["UserManager: Obtener Usuario"]
+    E --> F["UserManager: Remover Roles Actuales"]
+    F --> G["RoleManager: Verificar si existe 'PremiumUser'"]
+    G -- No --> H["Crear Rol PremiumUser"]
+    H --> I["UserManager: Añadir Rol PremiumUser"]
+    G -- Sí --> I
+    I --> J["Actualizar Claims del Usuario"]
+    J --> K["Retornar 200 OK: 'Suscripción exitosa'"]

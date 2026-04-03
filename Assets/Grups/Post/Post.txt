@@ -1,0 +1,11 @@
+graph TD
+    A["Inicio: CreateGroupCommand"] --> B["Obtener ID del Usuario Autenticado"]
+    B --> C{"¿Usuario es Premium?"}
+    C -- No --> D["Contar grupos activos del usuario"]
+    D --> E{"¿Tiene 3 o más grupos?"}
+    E -- Sí --> F["Lanzar PremiumLimitException"]
+    E -- No --> G["Proceder con la creación"]
+    C -- Sí --> G
+    G --> H["Persistence: Guardar nuevo Grupo"]
+    H --> I["Asociar Usuario como Miembro del Grupo"]
+    I --> J["Retornar 201 Created + GroupID"]

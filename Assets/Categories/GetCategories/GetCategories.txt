@@ -1,0 +1,8 @@
+graph TD
+    A[Inicio: Cliente GET /Categories] --> B[Mediator: GetAllCategoriesQuery]
+    B --> C[Handler: GetAllCategoriesQueryHandler]
+    C --> D[Persistence: IRepository.ListAsync]
+    D --> E[Filtrar por IsActive == true]
+    E --> F[AutoMapper: Mapear a CategoryDto]
+    F --> G[Envolver en Response de List de CategoryDto]
+    G --> H[Retornar 200 OK]

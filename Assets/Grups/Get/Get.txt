@@ -1,0 +1,10 @@
+graph TD
+    A["Inicio: GET /Groups/user"] --> B["Extraer UserId del Token JWT"]
+    B --> C["Mediator: Enviar GetGroupsByUserQuery"]
+    C --> D["Handler: GetGroupsByUserQueryHandler"]
+    D --> E["Specification: GroupsByUserSpecification"]
+    E --> F["Persistence: Consultar tabla Groups + GroupMembers"]
+    F --> G["Filtrar: ¿UserId está en la lista de miembros?"]
+    G --> H["AutoMapper: Convertir Entidades a DTOs"]
+    H --> I["Envolver en objeto Response de List"]
+    I --> J["Retornar 200 OK con los grupos"]

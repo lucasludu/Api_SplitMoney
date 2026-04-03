@@ -1,0 +1,20 @@
+graph TD
+    A[Inicio: Cliente POST /Groups/settle] --> B[Mediator: CreateSettlementCommand]
+    B --> C[Handler: CreateSettlementCommandHandler]
+    
+    subgraph Validaciones de Seguridad
+        C --> D[Specification: PayerInGroup?]
+        D -- No --> E[Retornar Error: 400 Bad Request]
+        D -- Sí --> F[Specification: PayeeInGroup?]
+        F -- No --> G[Retornar Error: 400 Bad Request]
+    end
+    
+    F -- Sí --> H[Persistence: Crear Entidad Settlement]
+    H --> I[UnitOfWork: SaveChangesAsync]
+    I --> J[Envolver Id en Response de Guid]
+    J --> K[Retornar 200 OK: Liquidación Registrada]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style K fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#f66,stroke:#333,stroke-width:2px
+    style G fill:#f66,stroke:#333,stroke-width:2px

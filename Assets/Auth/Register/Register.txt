@@ -1,0 +1,14 @@
+graph TD
+    A[Inicio: RegisterUserRequest] --> B[Validator: RegisterUserValidator]
+    B -- Datos Inválidos --> C[Lanzar ValidationException - 400]
+    B -- Datos Válidos --> D[AuthService: RegisterUserAsync]
+    D --> E{¿Email ya existe?}
+    E -- Sí --> F[Retornar Fail: Correo en uso]
+    E -- No --> G[Crear ApplicationUser objeto]
+    G --> H[UserManager: CreateAsync]
+    H -- Error Identity --> I[Retornar Fail con lista de errores]
+    H -- Éxito --> J{¿Rol existe en DB?}
+    J -- No --> K[RoleManager: CreateAsync del Rol]
+    K --> L[UserManager: AddToRoleAsync]
+    J -- Sí --> L
+    L --> M[Retornar Success: User ID]

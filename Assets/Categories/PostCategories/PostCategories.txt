@@ -1,0 +1,11 @@
+graph TD
+    A[Inicio: CreateCategoryCommand] --> B[Middleware: Authorize Role='Admin']
+    B -- No Autorizado --> C[Retornar 403 Forbidden]
+    B -- Autorizado --> D[Validator: CreateCategoryValidator]
+    D -- Fallo --> E[Retornar 400 Validation Error]
+    D -- Éxito --> F[Handler: CreateCategoryCommandHandler]
+    F --> G{¿Nombre ya existe?}
+    G -- Sí --> H[Lanzar ApiException: Categoría duplicada]
+    G -- No --> I[Persistence: Context.AddAsync]
+    I --> J[SaveChangesAsync: Auditar CreatedBy]
+    J --> K[Retornar 201 Created + ID]

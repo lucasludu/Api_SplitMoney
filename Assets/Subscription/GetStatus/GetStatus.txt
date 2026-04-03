@@ -1,0 +1,10 @@
+graph TD
+    A["Inicio: GET /Subscriptions/status"] --> B["Extraer Claims del Token (User ID)"]
+    B --> C["Mediator: GetSubscriptionStatusQuery"]
+    C --> D["Handler: GetSubscriptionStatusHandler"]
+    D --> E["UserManager: Obtener Roles del Usuario"]
+    E --> F{"¿Tiene rol 'PremiumUser'?"}
+    F -- Sí --> G["Status: 'Active' / Plan: 'Premium'"]
+    F -- No --> H["Status: 'None' / Plan: 'Free'"]
+    G & H --> I["Envolver en Response"]
+    I --> J["Retornar 200 OK con el objeto Status"]

@@ -1,0 +1,7 @@
+graph TD
+    A[Inicio: GetGroupBalanceQuery] --> B[Handler: GetGroupBalanceQueryHandler]
+    B --> C[Obtener todos los Settlements del grupo]
+    C --> D[Service: BalanceEngineService.ComputeRealBalances]
+    D --> E[Agrupar deudas por Usuario Deudor y Acreedor]
+    E --> F[Mapear a BalanceResponse]
+    F --> G[Retornar 200 OK con lista de saldos]

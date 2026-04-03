@@ -1,0 +1,7 @@
+graph TD
+    A[Inicio: GetExpenseAuditQuery] --> B{¿Usuario tiene Rol Premium?}
+    B -- No --> C[Lanzar PremiumLimitException]
+    B -- Sí --> D[Handler: GetExpenseAuditQueryHandler]
+    D --> E[Specification: AuditsByExpenseSpecification]
+    E --> F[Persistence: Consultar tabla ExpenseAudits]
+    F --> G[Retornar 200 OK con historial de cambios]

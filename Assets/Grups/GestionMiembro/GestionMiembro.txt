@@ -1,0 +1,6 @@
+graph LR
+    A["Añadir Miembro"] --> B{"¿Creador es Premium?"}
+    B -- No --> C{"¿Grupo tiene < 5 miembros?"}
+    C -- No --> D["Error: Límite de miembros alcanzado"]
+    C -- Sí --> E["Registrar nuevo Miembro"]
+    B -- Sí --> E

@@ -1,0 +1,13 @@
+graph TD
+    A[Inicio: LoginRequest] --> B[Validator: LoginValidator]
+    B -- Email/Password Vacíos --> C[Retornar 400]
+    B -- OK --> D[AuthService: LoginUserAsync]
+    D --> E[UserManager: FindByEmailAsync]
+    E -- No existe --> F[Retornar 401: Usuario/Clave incorrectos]
+    E -- Existe --> G[UserManager: CheckPasswordAsync]
+    G -- Clave Incorrecta --> F
+    G -- Clave Correcta --> H[Obtener Roles del Usuario]
+    H --> I[Privado: GenerateJwtTokenAsync]
+    I --> J[Construir Claims: ID, Email, UserName, Roles]
+    J --> K[Firmar con Jwt:Key y HmacSha256]
+    K --> L[Retornar LoginResponse: Token + UserID + Rol]
