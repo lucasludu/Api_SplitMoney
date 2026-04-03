@@ -4,6 +4,7 @@ using Application.Features._auth.Commands.RefreshTokenCommands;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features._auth.DTOs.Request;
+using Application.Features._auth.Commands.LogoutCommands;
 
 namespace WebApi.Controllers.V1
 {
@@ -52,6 +53,21 @@ namespace WebApi.Controllers.V1
 
             return (!result.Succeeded)
                 ? Unauthorized(result)
+                : Ok(result);
+        }
+
+        /// <summary>
+        /// Logout a user (revoke refresh token)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] RefreshTokenRequest request)
+        {
+            var result = await Mediator.Send(new LogoutCommand(request.RefreshToken));
+
+            return (!result.Succeeded)
+                ? BadRequest(result)
                 : Ok(result);
         }
     }

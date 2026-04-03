@@ -87,6 +87,26 @@ namespace Persistence.Service
             );
         }
 
+        public async Task<Response<bool>> LogoutAsync(string refreshToken)
+        {
+            var user = await _userManager.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == refreshToken));
+
+            if (user == null)
+                return Response<bool>.Fail("Invalid Refresh Token.");
+
+            var token = user.RefreshTokens.Single(x => x.Token == refreshToken);
+
+            if (!token.IsActive)
+                return Response<bool>.Fail("Inactive Refresh Token.");
+
+            token.Revoked = DateTime.UtcNow;
+            await _userManager.UpdateAsync(user);
+
+            return Response<bool>.Success(true, "Sesión cerrada correctamente.");
+        }
+
         public async Task<Response<string>> UpgradeToPremiumAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
