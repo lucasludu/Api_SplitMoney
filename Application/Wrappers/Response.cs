@@ -1,18 +1,18 @@
-﻿namespace Application.Wrappers
+namespace Application.Wrappers
 {
     public class Response<T>
     {
         public bool Succeeded { get; set; }
-        public string Message { get; set; }
-        public List<string> Errors { get; set; }
-        public T Data { get; set; }
+        public string? Message { get; set; }
+        public List<string>? Errors { get; set; }
+        public T? Data { get; set; }
 
         public Response()
         {
             
         }
 
-        public Response(T data, string message = null)
+        public Response(T data, string? message = null)
         {
             this.Succeeded = true;
             this.Message = message;
@@ -45,7 +45,7 @@
         /// <param name="errors"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static Response<T> Fail(List<string> errors, string message = null)
+        public static Response<T> Fail(List<string>? errors, string? message = null)
         {
             return new Response<T>
             {
@@ -61,7 +61,7 @@
         /// <param name="data"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static Response<T> Success(T data, string message = null)
+        public static Response<T> Success(T data, string? message = null)
         {
             return new Response<T>
             {

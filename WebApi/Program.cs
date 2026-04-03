@@ -1,4 +1,4 @@
-﻿using Application;
+using Application;
 using Persistence;
 using Persistence.Seed;
 using Shared;
@@ -15,8 +15,19 @@ builder.Services.AddApiVersioningExtension();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", p =>
+    {
+        p.AllowAnyOrigin()
+         .AllowAnyMethod()
+         .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -43,7 +54,7 @@ if (app.Environment.IsDevelopment())
         variable.DefaultModelsExpandDepth(-1);
     });
 }
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();

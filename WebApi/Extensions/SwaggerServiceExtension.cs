@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 namespace WebApi.Extensions
@@ -11,8 +11,8 @@ namespace WebApi.Extensions
             {
                 variable.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "API_Universidad",
-                    Description = "Sistema Universitario",
+                    Title = "SplitMoney API",
+                    Description = "Expense Sharing API",
                     Version = "v1",
                     Contact = new OpenApiContact
                     {

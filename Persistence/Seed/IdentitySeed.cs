@@ -1,4 +1,4 @@
-﻿using Application.Constants;
+using Application.Constants;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +26,8 @@ namespace Persistence.Seed
             {
                 var user = new ApplicationUser { 
                     UserName = adminEmail, 
-                    Nombre = name, 
-                    Apellido = lastName, 
+                    FirstName = name, 
+                    LastName = lastName, 
                     Email = adminEmail 
                 };
                 await userManager.CreateAsync(user, "Admin123!");

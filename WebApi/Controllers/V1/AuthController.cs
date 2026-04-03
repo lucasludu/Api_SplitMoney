@@ -1,5 +1,7 @@
-﻿using Application.Features._auth.Commands.LoginCommands;
+using Application.Features._auth.Commands.LoginCommands;
 using Application.Features._auth.Commands.RegisterUserCommands;
+using Application.Features._auth.Commands.RefreshTokenCommands;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features._auth.DTOs.Request;
 
@@ -35,6 +37,21 @@ namespace WebApi.Controllers.V1
 
             return (!result.Succeeded)
                 ? BadRequest(result)
+                : Ok(result);
+        }
+
+        /// <summary>
+        /// Refresh a JWT token
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var result = await Mediator.Send(new RefreshTokenCommand(request));
+
+            return (!result.Succeeded)
+                ? Unauthorized(result)
                 : Ok(result);
         }
     }

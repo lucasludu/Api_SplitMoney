@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -17,7 +17,7 @@ namespace WebApi.Extensions
             {
                 options.SwaggerDoc(desc.GroupName, new OpenApiInfo
                 {
-                    Title = $"API Universidad {desc.GroupName.ToUpperInvariant()}",
+                    Title = $"SplitMoney API {desc.GroupName.ToUpperInvariant()}",
                     Version = desc.ApiVersion.ToString()
                 });
             }

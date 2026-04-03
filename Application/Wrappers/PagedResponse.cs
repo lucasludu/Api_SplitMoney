@@ -1,4 +1,4 @@
-﻿namespace Application.Wrappers
+namespace Application.Wrappers
 {
     public class PagedResponse<T> : Response<T>
     {

@@ -1,13 +1,16 @@
-﻿using Application.Interfaces;
+using Application.Constants;
+using Application.Features._auth.DTOs.Request;
+using Application.Interfaces;
 using Application.Wrappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Application.Features._auth.DTOs.Request;
-using Application.Features._auth.DTOs.Response;
+using Models.Response._auth;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Persistence.Service
@@ -46,11 +49,57 @@ namespace Persistence.Service
             var rol = roles.FirstOrDefault();
 
             var token = await GenerateJwtTokenAsync(user);
+            var refreshToken = await GenerateRefreshTokenAsync(user);
 
             return new Response<LoginResponse>(
-                    new LoginResponse { Token = token , UserId = user.Id, Rol = rol! },
-                    $"Usuario {user.Nombre} logueado correctamente."
+                    new LoginResponse { Token = token, RefreshToken = refreshToken.Token, UserId = user.Id, Rol = rol! },
+                    $"Usuario {user.FirstName} logueado correctamente."
                 );
+        }
+
+        public async Task<Response<LoginResponse>> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == request.RefreshToken));
+
+            if (user == null)
+                return Response<LoginResponse>.Fail("Invalid Refresh Token.");
+
+            var refreshToken = user.RefreshTokens.Single(x => x.Token == request.RefreshToken);
+
+            if (!refreshToken.IsActive)
+                return Response<LoginResponse>.Fail("Inactive Refresh Token.");
+
+            // Revoke current token
+            refreshToken.Revoked = DateTime.UtcNow;
+
+            // Generate new tokens
+            var newJwtToken = await GenerateJwtTokenAsync(user);
+            var newRefreshToken = await GenerateRefreshTokenAsync(user);
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var rol = roles.FirstOrDefault();
+
+            return new Response<LoginResponse>(
+                new LoginResponse { Token = newJwtToken, RefreshToken = newRefreshToken.Token, UserId = user.Id, Rol = rol! },
+                "Token renovado correctamente."
+            );
+        }
+
+        public async Task<Response<string>> UpgradeToPremiumAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return Response<string>.Fail("Usuario no encontrado.");
+
+            if (await _userManager.IsInRoleAsync(user, RolesConstants.PremiumUser))
+                return Response<string>.Fail("El usuario ya es Premium.");
+
+            var result = await EnsureRoleAndAssignAsync(user, RolesConstants.PremiumUser);
+            if (!result.Succeeded)
+                return Response<string>.Fail("Error al actualizar la suscripción.");
+
+            return new Response<string>("¡Felicidades! Ahora eres un usuario Premium y tienes acceso a todas las funciones sin límites.");
         }
 
         /// <summary>
@@ -135,8 +184,8 @@ namespace Persistence.Service
             {
                 UserName = $"{request.FirstName}_{request.LastName}",
                 Email = request.Email,
-                Nombre = request.FirstName,
-                Apellido = request.LastName
+                FirstName = request.FirstName,
+                LastName = request.LastName
             };
         }
 
@@ -156,6 +205,21 @@ namespace Persistence.Service
             }
 
             return await _userManager.AddToRoleAsync(user, role);
+        }
+
+        private async Task<RefreshToken> GenerateRefreshTokenAsync(ApplicationUser user)
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.UtcNow.AddDays(7),
+                UserId = user.Id
+            };
+
+            user.RefreshTokens.Add(refreshToken);
+            await _userManager.UpdateAsync(user);
+
+            return refreshToken;
         }
 
         #endregion
