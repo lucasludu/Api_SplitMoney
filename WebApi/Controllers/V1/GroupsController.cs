@@ -1,7 +1,6 @@
 using Application.Interfaces;
-using Application.Features._groups.Queries.GetGroupsByUser;
-using Application.Features._groups.Commands.CreateGroup;
-using Application.Features._groups.Commands.CreateSettlement;
+using Application.Features.Groups.Queries;
+using Application.Features.Groups.Commands;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +29,20 @@ namespace WebApi.Controllers.V1
         public async Task<IActionResult> Post(CreateGroupCommand command)
         {
             return Ok(await Mediator.Send(command));
+        }
+
+        [HttpGet("{groupId:guid}/members")]
+        [Authorize]
+        public async Task<IActionResult> GetMembers(Guid groupId)
+        {
+            return Ok(await Mediator.Send(new GetGroupMembersQuery { GroupId = groupId }));
+        }
+
+        [HttpGet("{groupId:guid}/breakdown")]
+        [Authorize]
+        public async Task<IActionResult> GetBreakdown(Guid groupId)
+        {
+            return Ok(await Mediator.Send(new GetGroupSpendingBreakdownQuery(groupId)));
         }
 
         [HttpPost("settle")]

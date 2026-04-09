@@ -6,17 +6,19 @@ using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Features._groups.Commands.CreateGroup
+namespace Application.Features.Groups.Commands
 {
     public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Response<Guid>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAuthenticatedUserService _authenticatedUser;
+        private readonly IAuthService _authService;
 
-        public CreateGroupCommandHandler(IUnitOfWork unitOfWork, IAuthenticatedUserService authenticatedUser)
+        public CreateGroupCommandHandler(IUnitOfWork unitOfWork, IAuthenticatedUserService authenticatedUser, IAuthService authService)
         {
             _unitOfWork = unitOfWork;
             _authenticatedUser = authenticatedUser;
+            _authService = authService;
         }
 
         public async Task<Response<Guid>> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
@@ -29,19 +31,30 @@ namespace Application.Features._groups.Commands.CreateGroup
             {
                 var spec = new ActiveGroupsByUserCountSpecification(userId);
                 var activeGroupsCount = await _unitOfWork.RepositoryAsync<GroupMember>().CountAsync(spec, cancellationToken);
-
                 if (activeGroupsCount >= 3)
-                {
                     throw new PremiumLimitException("grupos activos", 3);
-                }
 
-                // Regla de Negocio: Límite de miembros por grupo para usuarios Free
-                if (request.MemberIds.Count + 1 > 5) // +1 por el creador
-                {
+                if (request.InitialMembers.Count + 1 > 5)
                     throw new PremiumLimitException("miembros por grupo", 5);
-                }
             }
 
+            // Resolve emails to actual User IDs and build members list
+            var memberDict = new Dictionary<string, string>(); // Email -> UserID
+            
+            // Add creator
+            var creator = await _unitOfWork.RepositoryAsync<ApplicationUser>().GetByIdAsync(userId);
+            if (creator == null) throw new ApplicationException("Usuario creador no encontrado.");
+            memberDict[creator.Email!] = userId;
+            
+            foreach (var record in request.InitialMembers)
+            {
+                if (record.Email.Equals(creator.Email, StringComparison.OrdinalIgnoreCase)) continue;
+                
+                var user = await _authService.GetOrCreatePlaceholderUserAsync(record.Email, record.FullName);
+                memberDict[record.Email] = user.Id;
+            }
+
+            // Create Group instance
             var group = new Group
             {
                 Name = request.Name,
@@ -49,29 +62,57 @@ namespace Application.Features._groups.Commands.CreateGroup
                 DefaultCurrency = request.DefaultCurrency
             };
 
-            // El creador es el administrador
-            group.Members.Add(new GroupMember
-            {
-                UserId = userId,
-                JoinedAt = DateTime.UtcNow,
-                IsAdmin = true
-            });
-
-            // Agregar otros miembros
-            foreach (var memberId in request.MemberIds)
+            // Add all resolved users to the group
+            foreach (var entry in memberDict)
             {
                 group.Members.Add(new GroupMember
                 {
-                    UserId = memberId,
+                    UserId = entry.Value,
                     JoinedAt = DateTime.UtcNow,
-                    IsAdmin = false
+                    IsAdmin = entry.Value == userId
                 });
             }
 
             var newGroup = await _unitOfWork.RepositoryAsync<Group>().AddAsync(group);
             await _unitOfWork.SaveChangesAsync();
 
-            return new Response<Guid>(newGroup.Id, "Grupo creado correctamente.");
+            // Create Initial Expenses for those who spent money
+            foreach (var record in request.InitialMembers)
+            {
+                if (record.AmountSpent <= 0) continue;
+                if (!memberDict.TryGetValue(record.Email, out var payerId)) continue;
+
+                var expense = new Expense
+                {
+                    Title = $"Gasto inicial: {record.Email}",
+                    TotalAmount = record.AmountSpent,
+                    GroupId = newGroup.Id,
+                    Created = DateTime.UtcNow
+                };
+
+                expense.Payments.Add(new ExpensePayment
+                {
+                    UserId = payerId,
+                    AmountPaid = record.AmountSpent
+                });
+
+                // Split equally among all group members
+                decimal splitAmount = record.AmountSpent / memberDict.Count;
+                foreach (var memberEntry in memberDict)
+                {
+                    expense.Splits.Add(new ExpenseSplit
+                    {
+                        UserId = memberEntry.Value,
+                        AmountOwed = splitAmount
+                    });
+                }
+
+                await _unitOfWork.RepositoryAsync<Expense>().AddAsync(expense);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return new Response<Guid>(newGroup.Id, "Grupo y saldos iniciales creados correctamente.");
         }
     }
 }

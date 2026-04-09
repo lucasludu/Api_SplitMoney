@@ -1,4 +1,4 @@
-﻿using Ardalis.Specification;
+using Ardalis.Specification;
 using Domain.Entities;
 
 namespace Application.Specification._expenses
@@ -7,8 +7,9 @@ namespace Application.Specification._expenses
     {
         public ExpensesByGroupSpecification(Guid groupId)
         {
-            Query.Where(e => e.GroupId == groupId)
-                 .Include(e => e.Splits);
+            Query.Where(e => e.GroupId == groupId && e.IsActive)
+                 .Include(e => e.Splits)
+                 .Include(e => e.Payments);
         }
     }
 }

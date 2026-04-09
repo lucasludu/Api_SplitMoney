@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Ardalis.Specification.EntityFrameworkCore;
 using Persistence.Contexts;
 
@@ -12,5 +12,7 @@ namespace Persistence.Repository
         {
             this.dbContext = dbContext;
         }
+
+        public IQueryable<T> Entities => dbContext.Set<T>();
     }
 }

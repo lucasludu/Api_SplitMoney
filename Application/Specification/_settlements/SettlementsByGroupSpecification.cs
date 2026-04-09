@@ -1,4 +1,4 @@
-﻿using Ardalis.Specification;
+using Ardalis.Specification;
 using Domain.Entities;
 
 namespace Application.Specification._settlements
@@ -7,7 +7,7 @@ namespace Application.Specification._settlements
     {
         public SettlementsByGroupSpecification(Guid groupId)
         {
-            Query.Where(x => x.GroupId == groupId);
+            Query.Where(x => x.GroupId == groupId && x.IsActive);
         }
     }
 }

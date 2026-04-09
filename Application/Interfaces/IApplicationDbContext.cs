@@ -12,6 +12,7 @@ namespace Application.Interfaces
         Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.GroupMember> GroupMembers { get; }
         Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.Expense> Expenses { get; }
         Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.ExpenseSplit> ExpenseSplits { get; }
+        Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.ExpensePayment> ExpensePayments { get; }
         Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.Balance> Balances { get; }
         Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.Settlement> Settlements { get; }
         Microsoft.EntityFrameworkCore.DbSet<Domain.Entities.Category> Categories { get; }

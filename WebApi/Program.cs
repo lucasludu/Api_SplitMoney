@@ -33,6 +33,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await IdentitySeed.SeedAsync(services);
+    await CategorySeed.SeedAsync(services);
 }
 
 // Middleware para redirigir "/" a "/swagger" sin generar un endpoint visible en Swagger

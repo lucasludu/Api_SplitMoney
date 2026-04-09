@@ -1,4 +1,4 @@
-namespace Application.Features._expenses.Queries.GetExpenseAudit
+namespace Application.Features.Expenses.Queries
 {
     public class ExpenseAuditResponse
     {

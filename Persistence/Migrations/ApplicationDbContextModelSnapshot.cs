@@ -222,6 +222,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("TEXT");
 
@@ -269,11 +272,11 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("GroupId");
-
-                    b.HasIndex("PayerId");
 
                     b.ToTable("Expenses");
                 });
@@ -326,6 +329,46 @@ namespace Persistence.Migrations
                     b.HasIndex("ModifiedByUserId");
 
                     b.ToTable("ExpenseAudits");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ExpensePayment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("AmountPaid")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ExpenseId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpenseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExpensePayments");
                 });
 
             modelBuilder.Entity("Domain.Entities.ExpenseSplit", b =>
@@ -696,6 +739,10 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Expense", b =>
                 {
+                    b.HasOne("Domain.Entities.ApplicationUser", null)
+                        .WithMany("PaidExpenses")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Domain.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
@@ -706,17 +753,9 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.ApplicationUser", "Payer")
-                        .WithMany("PaidExpenses")
-                        .HasForeignKey("PayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
 
                     b.Navigation("Group");
-
-                    b.Navigation("Payer");
                 });
 
             modelBuilder.Entity("Domain.Entities.ExpenseAudit", b =>
@@ -736,6 +775,25 @@ namespace Persistence.Migrations
                     b.Navigation("Expense");
 
                     b.Navigation("ModifiedByUser");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ExpensePayment", b =>
+                {
+                    b.HasOne("Domain.Entities.Expense", "Expense")
+                        .WithMany("Payments")
+                        .HasForeignKey("ExpenseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expense");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.ExpenseSplit", b =>
@@ -880,6 +938,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Expense", b =>
                 {
+                    b.Navigation("Payments");
+
                     b.Navigation("Splits");
                 });
 

@@ -8,7 +8,7 @@ using Domain.Entities;
 using MediatR;
 using Models.Response._balance;
 
-namespace Application.Features._expenses.Queries.GetGroupBalance
+namespace Application.Features.Expenses.Queries.GetGroupBalance
 {
     public class GetGroupBalanceQueryHandler : IRequestHandler<GetGroupBalanceQuery, Response<List<BalanceResponse>>>
     {

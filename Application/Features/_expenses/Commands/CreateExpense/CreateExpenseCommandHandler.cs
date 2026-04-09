@@ -1,11 +1,11 @@
-﻿using Application.Features.Expenses.Commands.CreateExpense;
+using Application.Features.Expenses.Commands.CreateExpense;
 using Application.Interfaces;
 using Application.Wrappers;
 using Domain.Entities;
 using Domain.Enum;
 using MediatR;
 
-namespace Application.Features._expenses.Commands.CreateExpense
+namespace Application.Features.Expenses.Commands.CreateExpense
 {
     public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Response<Guid>>
     {
@@ -25,8 +25,30 @@ namespace Application.Features._expenses.Commands.CreateExpense
                 TotalAmount = request.Request.TotalAmount,
                 Currency = request.Request.Currency,
                 Date = request.Request.Date,
-                PayerId = request.Request.PayerId
+                CategoryId = request.Request.CategoryId,
+                PayerId = request.Request.PayerId ?? request.Request.Payments.FirstOrDefault()?.UserId ?? string.Empty
             };
+            
+            // Process Payers (Multiple or Single)
+            if (request.Request.Payments != null && request.Request.Payments.Any())
+            {
+                foreach (var paymentDto in request.Request.Payments)
+                {
+                    expense.Payments.Add(new ExpensePayment
+                    {
+                        UserId = paymentDto.UserId,
+                        AmountPaid = paymentDto.AmountPaid
+                    });
+                }
+            }
+            else if (!string.IsNullOrEmpty(request.Request.PayerId))
+            {
+                expense.Payments.Add(new ExpensePayment
+                {
+                    UserId = request.Request.PayerId,
+                    AmountPaid = request.Request.TotalAmount
+                });
+            }
 
             foreach (var splitDto in request.Request.Splits)
             {

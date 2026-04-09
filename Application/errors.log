@@ -1,0 +1,822 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Compilador de Microsoft (R) Visual C#",
+        "version": "5.3.0.0",
+        "fileVersion": "5.3.0-2.26153.122 (4d3023de605a78ba3e59e50c657eed70f125c68a)",
+        "semanticVersion": "5.3.0",
+        "language": "es-ES"
+      },
+      "results": [
+        {
+          "ruleId": "CS8602",
+          "level": "warning",
+          "message": "Desreferencia de una referencia posiblemente NULL.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateGroup/CreateGroupCommandHandler.cs",
+                "region": {
+                  "startLine": 46,
+                  "startColumn": 24,
+                  "endLine": 46,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS1061",
+          "level": "error",
+          "message": "\"Expense\" no contiene una definición para \"SplitType\" ni un método de extensión accesible \"SplitType\" que acepte un primer argumento del tipo \"Expense\" (¿falta alguna directiva using o una referencia de ensamblado?)",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetGroupExport/GetGroupExportQueryHandler.cs",
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 37,
+                  "endLine": 55,
+                  "endColumn": 46
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1061",
+          "level": "error",
+          "message": "\"Expense\" no contiene una definición para \"SplitType\" ni un método de extensión accesible \"SplitType\" que acepte un primer argumento del tipo \"Expense\" (¿falta alguna directiva using o una referencia de ensamblado?)",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetGroupExport/GetGroupExportQueryHandler.cs",
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 73,
+                  "endLine": 55,
+                  "endColumn": 82
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"AddAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateSettlement/CreateSettlementCommand.cs",
+                "region": {
+                  "startLine": 60,
+                  "startColumn": 19,
+                  "endLine": 60,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"Invoke\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Behaviours/ValidationBehaviour.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 26,
+                  "endLine": 29,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateSettlement/CreateSettlementCommand.cs",
+                "region": {
+                  "startLine": 61,
+                  "startColumn": 19,
+                  "endLine": 61,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"AddAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_categories/Commands/CreateCustomCategory/CreateCustomCategoryCommandHandler.cs",
+                "region": {
+                  "startLine": 37,
+                  "startColumn": 37,
+                  "endLine": 37,
+                  "endColumn": 85
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"DeleteAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/DeleteExpense/DeleteExpenseCommand.cs",
+                "region": {
+                  "startLine": 35,
+                  "startColumn": 19,
+                  "endLine": 35,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"UpdateAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/UpdateExpense/UpdateExpenseCommand.cs",
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 19,
+                  "endLine": 51,
+                  "endColumn": 69
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/DeleteExpense/DeleteExpenseCommand.cs",
+                "region": {
+                  "startLine": 36,
+                  "startColumn": 19,
+                  "endLine": 36,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/UpdateExpense/UpdateExpenseCommand.cs",
+                "region": {
+                  "startLine": 52,
+                  "startColumn": 19,
+                  "endLine": 52,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_categories/Commands/CreateCustomCategory/CreateCustomCategoryCommandHandler.cs",
+                "region": {
+                  "startLine": 38,
+                  "startColumn": 19,
+                  "endLine": 38,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"AddAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/CreateExpense/CreateExpenseCommandHandler.cs",
+                "region": {
+                  "startLine": 77,
+                  "startColumn": 36,
+                  "endLine": 77,
+                  "endColumn": 83
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Behaviours/ValidationBehaviour.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 20,
+                  "endLine": 24,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/CreateExpense/CreateExpenseCommandHandler.cs",
+                "region": {
+                  "startLine": 78,
+                  "startColumn": 19,
+                  "endLine": 78,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/CreateExpense/CreateExpenseCommandHandler.cs",
+                "region": {
+                  "startLine": 32,
+                  "startColumn": 53,
+                  "endLine": 32,
+                  "endColumn": 83
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/CreateExpense/CreateExpenseValidator.cs",
+                "region": {
+                  "startLine": 25,
+                  "startColumn": 70,
+                  "endLine": 25,
+                  "endColumn": 94
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"GetByIdAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetExpenseAudit/GetExpenseAuditQueryHandler.cs",
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 33,
+                  "endLine": 31,
+                  "endColumn": 84
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/CreateExpense/CreateExpenseValidator.cs",
+                "region": {
+                  "startLine": 48,
+                  "startColumn": 52,
+                  "endLine": 48,
+                  "endColumn": 80
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Commands/CreateExpense/CreateExpenseValidator.cs",
+                "region": {
+                  "startLine": 73,
+                  "startColumn": 58,
+                  "endLine": 73,
+                  "endColumn": 88
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"GetByIdAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateGroup/CreateGroupCommandHandler.cs",
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 33,
+                  "endLine": 45,
+                  "endColumn": 92
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"ListAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetGroupBalance/GetGroupBalanceQueryHandler.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 38,
+                  "endLine": 28,
+                  "endColumn": 86
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"ListAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetGroupBalance/GetGroupBalanceQueryHandler.cs",
+                "region": {
+                  "startLine": 32,
+                  "startColumn": 41,
+                  "endLine": 32,
+                  "endColumn": 92
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"AddAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateGroup/CreateGroupCommandHandler.cs",
+                "region": {
+                  "startLine": 75,
+                  "startColumn": 34,
+                  "endLine": 75,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateGroup/CreateGroupCommandHandler.cs",
+                "region": {
+                  "startLine": 76,
+                  "startColumn": 19,
+                  "endLine": 76,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"ListAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetGroupBalance/GetGroupBalanceQueryHandler.cs",
+                "region": {
+                  "startLine": 39,
+                  "startColumn": 31,
+                  "endLine": 39,
+                  "endColumn": 87
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"AddAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateGroup/CreateGroupCommandHandler.cs",
+                "region": {
+                  "startLine": 109,
+                  "startColumn": 23,
+                  "endLine": 109,
+                  "endColumn": 70
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA2016",
+          "level": "note",
+          "message": "Reenviar el parámetro \"cancellationToken\" al método \"SaveChangesAsync\" o pasar \"CancellationToken.None\" de forma explícita para indicar que no se propagó el token intencionalmente",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_groups/Commands/CreateGroup/CreateGroupCommandHandler.cs",
+                "region": {
+                  "startLine": 112,
+                  "startColumn": 19,
+                  "endLine": 112,
+                  "endColumn": 47
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "ArgumentName": "cancellationToken",
+              "ParameterName": null,
+              "ShouldFix": "1"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Features/_expenses/Queries/GetSpendingSummary/GetGroupSpendingSummaryQueryHandler.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 18,
+                  "endLine": 28,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Es preferible comparar \"Count\" con 0 en lugar de usar \"Any()\", tanto por claridad como por rendimiento.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/User/OneDrive/Escritorio/SplitMoney/Api_SplitMoney/Application/Services/BalanceEngineService.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 49,
+                  "endLine": 16,
+                  "endColumn": 71
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        }
+      ],
+      "rules": {
+        "CA1860": {
+          "id": "CA1860",
+          "shortDescription": "Evitar usar el método de extensión \"Enumerable.Any()\"",
+          "fullDescription": "Es preferible usar las propiedades \"IsEmpty\", \"Count\" o \"Length\", si hay alguna disponible, en lugar de llamar a \"Enumerable.Any()\". La intención es más clara y tiene un mejor rendimiento que usar el método de extensión \"Enumerable.Any()\".",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1860",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CA2016": {
+          "id": "CA2016",
+          "shortDescription": "Reenviar el parámetro \"CancellationToken\" a los métodos",
+          "fullDescription": "Reenvíe el parámetro \"CancellationToken\" a los métodos para garantizar que las notificaciones de cancelación de operaciones se propagan correctamente, o bien pase \"CancellationToken.None\" explícitamente para indicar que no se propagará el token intencionalmente.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016",
+          "properties": {
+            "category": "Reliability",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CS1061": {
+          "id": "CS1061",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1061)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        },
+        "CS8602": {
+          "id": "CS8602",
+          "shortDescription": "Desreferencia de una referencia posiblemente NULL.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8602)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

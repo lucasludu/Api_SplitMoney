@@ -159,6 +159,40 @@ namespace Persistence.Service
         }
 
 
+        public async Task<ApplicationUser?> GetUserByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<ApplicationUser> GetOrCreatePlaceholderUserAsync(string email, string? fullName = null)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null) return user;
+            
+            var firstName = email.Split('@')[0];
+            var lastName = string.Empty;
+
+            if (!string.IsNullOrEmpty(fullName))
+            {
+                var parts = fullName.Trim().Split(' ');
+                firstName = parts[0];
+                lastName = parts.Length > 1 ? string.Join(' ', parts.Skip(1)) : string.Empty;
+            }
+
+            var newUser = new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            await _userManager.CreateAsync(newUser, $"Guest_{Guid.NewGuid().ToString().Substring(0, 8)}");
+            await EnsureRoleAndAssignAsync(newUser, RolesConstants.Guest);
+            
+            return newUser;
+        }
+
         #region Métodos Privados
 
         /// <summary>

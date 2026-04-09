@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features._groups.Commands.CreateSettlement
+namespace Application.Features.Groups.Commands
 {
     public record CreateSettlementCommand(CreateSettlementRequest Request) : IRequest<Response<Guid>>;
 

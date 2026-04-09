@@ -1,7 +1,7 @@
 using Application.Wrappers;
 using MediatR;
 
-namespace Application.Features._groups.Queries.GetGroupsByUser
+namespace Application.Features.Groups.Queries
 {
     public class GetGroupsByUserQuery : IRequest<Response<IEnumerable<GroupDto>>>
     {

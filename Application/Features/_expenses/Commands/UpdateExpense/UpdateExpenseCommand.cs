@@ -44,6 +44,7 @@ namespace Application.Features.Expenses.Commands.UpdateExpense
             expense.TotalAmount = request.TotalAmount;
             expense.Currency = request.Currency;
             expense.Date = request.Date;
+            expense.CategoryId = request.CategoryId;
 
             // Nota: En una implementación real más compleja, aquí actualizaríamos los Splits también.
             // Para redondear el flujo, nos enfocaremos en las auditorías de campos básicos.
@@ -78,8 +79,21 @@ namespace Application.Features.Expenses.Commands.UpdateExpense
                 {
                     ExpenseId = oldExpense.Id,
                     Action = "Cambio de Monto",
-                    PreviousValue = $"{oldExpense.TotalAmount} {oldExpense.Currency}",
-                    NewValue = $"{newRequest.TotalAmount} {newRequest.Currency}",
+                    PreviousValue = $"{oldExpense.TotalAmount:N2}",
+                    NewValue = $"{newRequest.TotalAmount:N2}",
+                    ModifiedByUserId = _authenticatedUser.UserId
+                });
+            }
+
+            // Auditoría de Categoría
+            if (oldExpense.CategoryId != newRequest.CategoryId)
+            {
+                await auditsRepo.AddAsync(new ExpenseAudit
+                {
+                    ExpenseId = oldExpense.Id,
+                    Action = "Cambio de Categoría",
+                    PreviousValue = oldExpense.CategoryId?.ToString() ?? "Sin Categoría",
+                    NewValue = newRequest.CategoryId?.ToString() ?? "Sin Categoría",
                     ModifiedByUserId = _authenticatedUser.UserId
                 });
             }

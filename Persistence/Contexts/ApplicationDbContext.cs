@@ -13,6 +13,7 @@ namespace Persistence.Contexts
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<ExpenseSplit> ExpenseSplits { get; set; }
+        public DbSet<ExpensePayment> ExpensePayments { get; set; }
         public DbSet<Balance> Balances { get; set; }
         public DbSet<Settlement> Settlements { get; set; }
         public DbSet<Category> Categories { get; set; }

@@ -12,5 +12,7 @@ namespace Application.Interfaces
         Task<Response<LoginResponse>> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken);
         Task<Response<string>> UpgradeToPremiumAsync(string userId);
         Task<Response<bool>> LogoutAsync(string refreshToken);
+        Task<ApplicationUser?> GetUserByEmailAsync(string email);
+        Task<ApplicationUser> GetOrCreatePlaceholderUserAsync(string email, string? fullName = null);
     }
 }

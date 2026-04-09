@@ -12,15 +12,14 @@ namespace Domain.Entities
         public string Currency { get; set; } = "USD";
         public decimal? ExchangeRateToGroupCurrency { get; set; } 
 
+        public string PayerId { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public string? ReceiptUrl { get; set; } 
-
-        public string PayerId { get; set; } = string.Empty;
-        public ApplicationUser Payer { get; set; } = null!;
 
         public Guid? CategoryId { get; set; }
         public Category? Category { get; set; }
 
         public ICollection<ExpenseSplit> Splits { get; set; } = new List<ExpenseSplit>();
+        public ICollection<ExpensePayment> Payments { get; set; } = new List<ExpensePayment>();
     }
 }

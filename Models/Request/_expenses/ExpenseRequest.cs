@@ -1,13 +1,15 @@
-﻿namespace Models.Request._expenses
+namespace Models.Request._expenses
 {
     public class ExpenseRequest
     {
-        public Guid GroupId { get; set; }
         public string Title { get; set; } = string.Empty;
         public decimal TotalAmount { get; set; }
+        public Guid GroupId { get; set; }
+        public string? PayerId { get; set; }
+        public Guid? CategoryId { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public string Currency { get; set; } = "USD";
-        public DateTime Date { get; set; }
-        public string PayerId { get; set; } = string.Empty;
-        public List<ExpenseSplitRequest> Splits { get; set; } = new List<ExpenseSplitRequest>();
+        public List<ExpenseSplitRequest> Splits { get; set; } = new();
+        public List<ExpensePaymentRequest> Payments { get; set; } = new();
     }
 }

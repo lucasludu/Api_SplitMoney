@@ -12,10 +12,22 @@ namespace Application.Services
             // 1. Calculate net debt for each user
             foreach (var expense in expenses)
             {
-                // Payer gets back the total minus their own share
-                if (!netBalances.ContainsKey(expense.PayerId)) netBalances[expense.PayerId] = 0;
-                netBalances[expense.PayerId] += expense.TotalAmount;
+                // Process all payers for this expense
+                if (expense.Payments != null && expense.Payments.Any())
+                {
+                    foreach (var payment in expense.Payments)
+                    {
+                        if (!netBalances.ContainsKey(payment.UserId)) netBalances[payment.UserId] = 0;
+                        netBalances[payment.UserId] += payment.AmountPaid;
+                    }
+                }
+                else if (!string.IsNullOrEmpty(expense.PayerId)) // Fallback to legacy PayerId
+                {
+                    if (!netBalances.ContainsKey(expense.PayerId)) netBalances[expense.PayerId] = 0;
+                    netBalances[expense.PayerId] += expense.TotalAmount;
+                }
 
+                // Process all splits (who owes)
                 foreach (var split in expense.Splits)
                 {
                     if (!netBalances.ContainsKey(split.UserId)) netBalances[split.UserId] = 0;

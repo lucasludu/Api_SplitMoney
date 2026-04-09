@@ -1,4 +1,4 @@
-﻿using Ardalis.Specification;
+using Ardalis.Specification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace Application.Interfaces
 {
     public interface IRepositoryAsync<T> : IRepositoryBase<T> where T : class
     {
+        IQueryable<T> Entities { get; }
     }
 
     public interface IReadRepositoryAsync<T> : IReadRepositoryBase<T> where T : class 

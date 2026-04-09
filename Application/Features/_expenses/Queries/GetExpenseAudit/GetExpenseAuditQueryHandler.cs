@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Application.Specification._expenses;
 
-namespace Application.Features._expenses.Queries.GetExpenseAudit
+namespace Application.Features.Expenses.Queries.GetExpenseAudit
 {
     public class GetExpenseAuditQueryHandler : IRequestHandler<GetExpenseAuditQuery, Response<ExpenseAuditResponse>>
     {
