@@ -40,12 +40,12 @@ La aplicación utiliza las siguientes tecnologías:
 ## Diagrama de la Arquitectura
 ```mermaid
 graph LR
-    A[Presentation Layer] -->|Request|> B[Buisness Layer]
-    B -->|Operation|> C[Data Access Layer]
-    C -->|Data|> B
-    B -->|Response|> A
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#f9f,stroke:#333,stroke-width:2px
-    style C fill:#f9f,stroke:#333,stroke-width:2px
+    A[Presentation Layer] -->|Request| B[Buisness Layer]
+    B -->|Operation| C[Data Access Layer]
+    C -->|Data| B
+    B -->|Response| A
+    style A fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000
 ```
 La arquitectura de la aplicación se compone de tres capas: presentación, negocio y datos. La capa de presentación se encarga de la interacción con el usuario y la presentación de la información. La capa de negocio se encarga de la lógica de negocio de la aplicación y se utiliza para validar los datos y realizar las operaciones necesarias. La capa de datos se encarga de la persistencia de los datos y se utiliza para almacenar y recuperar los datos de la aplicación.
