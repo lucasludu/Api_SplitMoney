@@ -40,10 +40,10 @@ La aplicación utiliza las siguientes tecnologías:
 ## Diagrama de la Arquitectura
 ```mermaid
 graph LR
-    A[Presentation Layer] -->|Request|> B[Buisness Layer]
-    B -->|Operation|> C[Data Access Layer]
-    C -->|Data|> B
-    B -->|Response|> A
+    A[Presentation Layer] -->|Request| B[Buisness Layer]
+    B -->|Operation| C[Data Access Layer]
+    C -->|Data| B
+    B -->|Response| A
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#f9f,stroke:#333,stroke-width:2px
     style C fill:#f9f,stroke:#333,stroke-width:2px
