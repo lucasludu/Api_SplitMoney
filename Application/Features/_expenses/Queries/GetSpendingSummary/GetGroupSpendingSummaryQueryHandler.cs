@@ -30,7 +30,7 @@ namespace Application.Features.Expenses.Queries.GetSpendingSummary
                 return new Response<GroupSpendingSummaryResponse>(new GroupSpendingSummaryResponse { GroupId = request.GroupId });
             }
 
-            var totalSpending = expenses.Sum(e => e.TotalAmount);
+            var totalSpending = expenses.Sum(e => e.Amount.Amount);
 
             var categorySummary = expenses
                 .GroupBy(e => e.Category)
@@ -39,8 +39,8 @@ namespace Application.Features.Expenses.Queries.GetSpendingSummary
                     CategoryName = g.Key?.Name ?? "General",
                     CategoryIcon = g.Key?.IconIdentifier ?? "💰",
                     CategoryColor = g.Key?.ColorHex ?? "#000000",
-                    TotalAmount = g.Sum(e => e.TotalAmount),
-                    Percentage = (double)(g.Sum(e => e.TotalAmount) / totalSpending * 100)
+                    TotalAmount = g.Sum(e => e.Amount.Amount),
+                    Percentage = (double)(g.Sum(e => e.Amount.Amount) / totalSpending * 100)
                 })
                 .OrderByDescending(c => c.TotalAmount)
                 .ToList();

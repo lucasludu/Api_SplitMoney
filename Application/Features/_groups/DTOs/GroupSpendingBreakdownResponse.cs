@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Models.Response._groups
+namespace Application.Features._groups.DTOs
 {
     public class GroupSpendingBreakdownResponse
     {

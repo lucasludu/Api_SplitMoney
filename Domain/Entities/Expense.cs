@@ -8,11 +8,9 @@ namespace Domain.Entities
         public Group Group { get; set; } = null!;
 
         public string Title { get; set; } = string.Empty;
-        public decimal TotalAmount { get; set; } 
-        public string Currency { get; set; } = "USD";
+        public Money Amount { get; set; } = null!;
         public decimal? ExchangeRateToGroupCurrency { get; set; } 
 
-        public string PayerId { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public string? ReceiptUrl { get; set; } 
 

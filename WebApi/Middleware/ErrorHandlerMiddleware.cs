@@ -1,4 +1,4 @@
-﻿using Application.Wrappers;
+using Application.Wrappers;
 using System.Net;
 using System.Text.Json;
 

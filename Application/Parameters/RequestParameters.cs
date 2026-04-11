@@ -1,4 +1,4 @@
-﻿namespace Application.Parameters
+namespace Application.Parameters
 {
     public class RequestParameters
     {

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Common
 {
@@ -8,7 +8,7 @@ namespace Domain.Common
         public Guid Id { get; set; } = Guid.NewGuid();
         public bool IsActive { get; set; } = true;
         public string? CreatedBy { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; }
         public string? LastModifiedBy { get; set; }
         public DateTime? LastModified { get; set; }
     }

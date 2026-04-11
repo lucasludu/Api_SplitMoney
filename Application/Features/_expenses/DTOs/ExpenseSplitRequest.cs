@@ -1,6 +1,6 @@
-﻿using Domain.Enum;
+using Domain.Enum;
 
-namespace Models.Request._expenses
+namespace Application.Features._expenses.DTOs
 {
     public class ExpenseSplitRequest
     {

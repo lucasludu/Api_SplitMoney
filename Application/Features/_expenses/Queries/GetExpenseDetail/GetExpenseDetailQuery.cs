@@ -3,7 +3,7 @@ using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Models.Response._expenses;
+using Application.Features._expenses.DTOs;
 
 namespace Application.Features.Expenses.Queries
 {
@@ -37,7 +37,7 @@ namespace Application.Features.Expenses.Queries
             {
                 Id = expense.Id,
                 Description = expense.Title,
-                TotalAmount = expense.TotalAmount,
+                TotalAmount = expense.Amount.Amount,
                 Date = expense.Created,
                 GroupName = expense.Group.Name,
                 CategoryIcon = expense.Category != null ? expense.Category.IconIdentifier : "💰",

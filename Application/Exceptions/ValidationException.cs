@@ -1,4 +1,4 @@
-Ôªøusing FluentValidation.Results;
+using FluentValidation.Results;
 
 namespace Application.Exceptions
 {
@@ -6,7 +6,7 @@ namespace Application.Exceptions
     {
         public List<string> Errors { get; }
 
-        public ValidationException() : base("Se han producido uno o m√°s errores de validaci√≥n.")
+        public ValidationException() : base("Se han producido uno o m·s errores de validaciÛn.")
         {
             Errors = new List<string>();    
         }

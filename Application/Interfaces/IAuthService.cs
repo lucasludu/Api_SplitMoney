@@ -1,7 +1,7 @@
 using Application.Features._auth.DTOs.Request;
 using Application.Wrappers;
 using Domain.Entities;
-using Models.Response._auth;
+using Application.Features._auth.DTOs;
 
 namespace Application.Interfaces
 {

@@ -13,8 +13,7 @@ namespace Domain.Entities
         public string PayeeId { get; set; } = string.Empty;
         public ApplicationUser Payee { get; set; } = null!;
 
-        public decimal Amount { get; set; }
-        public string Currency { get; set; } = "USD";
+        public Money Amount { get; set; } = null!;
         public DateTime Date { get; set; }
         
         public string? ProofImageUrl { get; set; }

@@ -5,7 +5,7 @@ using Application.Interfaces;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Request._expenses;
+using Application.Features._expenses.DTOs;
 
 namespace WebApi.Controllers.V1
 {

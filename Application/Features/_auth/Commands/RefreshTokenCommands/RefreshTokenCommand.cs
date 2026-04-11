@@ -2,7 +2,7 @@ using Application.Features._auth.DTOs.Request;
 using Application.Interfaces;
 using Application.Wrappers;
 using MediatR;
-using Models.Response._auth;
+using Application.Features._auth.DTOs;
 
 namespace Application.Features._auth.Commands.RefreshTokenCommands
 {

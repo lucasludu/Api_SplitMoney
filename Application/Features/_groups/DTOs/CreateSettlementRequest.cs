@@ -1,6 +1,6 @@
 using System;
 
-namespace Models.Request._groups
+namespace Application.Features._groups.DTOs
 {
     public class CreateSettlementRequest
     {

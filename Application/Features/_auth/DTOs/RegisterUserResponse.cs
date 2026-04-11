@@ -1,4 +1,4 @@
-﻿namespace Models.Response._auth
+namespace Application.Features._auth.DTOs
 {
     public class RegisterUserResponse
     {

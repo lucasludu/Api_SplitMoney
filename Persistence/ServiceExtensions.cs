@@ -37,6 +37,7 @@ namespace Persistence
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
             #region Repositories y Servicios
+            services.AddScoped<Persistence.Interceptors.AuditableEntityInterceptor>();
             services.AddTransient(typeof(IRepositoryAsync<>), typeof(MyRepositoryAsync<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IAuthService, AuthService>();

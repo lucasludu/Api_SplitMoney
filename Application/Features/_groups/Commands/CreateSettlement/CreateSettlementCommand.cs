@@ -2,9 +2,10 @@ using Application.Interfaces;
 using Application.Specification._user;
 using Application.Wrappers;
 using Domain.Entities;
+using Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Models.Request._groups;
+using Application.Features._groups.DTOs;
 using System;
 using System.Linq;
 using System.Threading;
@@ -51,8 +52,7 @@ namespace Application.Features.Groups.Commands
                 GroupId = request.GroupId,
                 PayerId = userId, 
                 PayeeId = request.PayeeId,
-                Amount = request.Amount,
-                Currency = request.Currency,
+                Amount = new Money(request.Amount, request.Currency),
                 Date = request.Date,
                 ProofImageUrl = request.ProofImageUrl
             };

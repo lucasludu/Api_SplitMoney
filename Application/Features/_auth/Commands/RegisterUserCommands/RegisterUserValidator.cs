@@ -1,4 +1,4 @@
-﻿using Application.Constants;
+using Application.Constants;
 using FluentValidation;
 
 namespace Application.Features._auth.Commands.RegisterUserCommands

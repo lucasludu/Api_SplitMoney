@@ -1,6 +1,6 @@
-using Models.Request._expenses;
+using Application.Features._expenses.DTOs;
 
-namespace Models.Request._expenses
+namespace Application.Features._expenses.DTOs
 {
     public class UpdateExpenseRequest
     {

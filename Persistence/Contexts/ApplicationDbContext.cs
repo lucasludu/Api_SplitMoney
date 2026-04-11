@@ -20,31 +20,28 @@ namespace Persistence.Contexts
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<ExpenseAudit> ExpenseAudits { get; set; }
 
-        private readonly IDateTimeService _dateTime;
+        private readonly Persistence.Interceptors.AuditableEntityInterceptor? _auditableEntityInterceptor;
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
-            IDateTimeService datetime)
+            Persistence.Interceptors.AuditableEntityInterceptor? auditableEntityInterceptor = null)
         : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            this._dateTime = datetime;
+            _auditableEntityInterceptor = auditableEntityInterceptor;
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            if (_auditableEntityInterceptor != null)
             {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.Created = _dateTime.NowUtc;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.LastModified = _dateTime.NowUtc;
-                        break;
-                }
+                optionsBuilder.AddInterceptors(_auditableEntityInterceptor);
             }
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
             return base.SaveChangesAsync(cancellationToken);
         }
 
@@ -62,6 +59,24 @@ namespace Persistence.Contexts
                     v => (decimal)v
                 ));
             }
+
+            modelBuilder.Entity<Expense>(entity =>
+            {
+                entity.OwnsOne(e => e.Amount, a =>
+                {
+                    a.Property(p => p.Amount).HasColumnName("TotalAmount");
+                    a.Property(p => p.Currency).HasColumnName("Currency").HasMaxLength(3);
+                });
+            });
+
+            modelBuilder.Entity<Settlement>(entity =>
+            {
+                entity.OwnsOne(s => s.Amount, a =>
+                {
+                    a.Property(p => p.Amount).HasColumnName("Amount");
+                    a.Property(p => p.Currency).HasColumnName("Currency").HasMaxLength(3);
+                });
+            });
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

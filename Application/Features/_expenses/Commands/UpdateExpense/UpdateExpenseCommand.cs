@@ -3,12 +3,13 @@ using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Models.Request._expenses;
+using Application.Features._expenses.DTOs;
 using Application.Specification._expenses;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Common;
 
 namespace Application.Features.Expenses.Commands.UpdateExpense
 {
@@ -41,8 +42,7 @@ namespace Application.Features.Expenses.Commands.UpdateExpense
 
             // Actualizar campos básicos
             expense.Title = request.Title;
-            expense.TotalAmount = request.TotalAmount;
-            expense.Currency = request.Currency;
+            expense.Amount = new Money(request.TotalAmount, request.Currency);
             expense.Date = request.Date;
             expense.CategoryId = request.CategoryId;
 
@@ -73,13 +73,13 @@ namespace Application.Features.Expenses.Commands.UpdateExpense
             }
 
             // Auditoría de Monto
-            if (oldExpense.TotalAmount != newRequest.TotalAmount)
+            if (oldExpense.Amount.Amount != newRequest.TotalAmount)
             {
                 await auditsRepo.AddAsync(new ExpenseAudit
                 {
                     ExpenseId = oldExpense.Id,
                     Action = "Cambio de Monto",
-                    PreviousValue = $"{oldExpense.TotalAmount:N2}",
+                    PreviousValue = $"{oldExpense.Amount.Amount:N2}",
                     NewValue = $"{newRequest.TotalAmount:N2}",
                     ModifiedByUserId = _authenticatedUser.UserId
                 });

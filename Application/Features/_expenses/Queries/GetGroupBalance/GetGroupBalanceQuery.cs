@@ -1,6 +1,6 @@
 using Application.Wrappers;
 using MediatR;
-using Models.Response._balance;
+using Application.Features._expenses.DTOs;
 
 namespace Application.Features.Expenses.Queries
 {

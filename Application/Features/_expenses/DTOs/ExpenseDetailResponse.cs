@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Models.Response._expenses
+namespace Application.Features._expenses.DTOs
 {
     public class ExpenseDetailResponse
     {

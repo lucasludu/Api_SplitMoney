@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Persistence.Contexts;
 using Persistence.Repository;
 using System.Collections;

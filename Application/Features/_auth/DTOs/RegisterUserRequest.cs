@@ -1,4 +1,4 @@
-﻿namespace Application.Features._auth.DTOs.Request
+namespace Application.Features._auth.DTOs.Request
 {
     public class RegisterUserRequest
     {

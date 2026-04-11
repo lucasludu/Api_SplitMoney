@@ -2,7 +2,7 @@ using Application.Interfaces;
 using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
-using Models.Response._expenses;
+using Application.Features._expenses.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Expenses.Queries
@@ -76,7 +76,7 @@ namespace Application.Features.Expenses.Queries
                 .Entities
                 .Include(e => e.Group)
                 .Include(e => e.Category)
-                .Where(e => e.IsActive && (e.Splits.Any(s => s.UserId == request.UserId) || e.PayerId == request.UserId))
+                .Where(e => e.IsActive && (e.Splits.Any(s => s.UserId == request.UserId) || e.Payments.Any(p => p.UserId == request.UserId)))
                 .OrderByDescending(e => e.Created)
                 .Take(10)
                 .Select(e => new RecentExpenseResponse
@@ -85,7 +85,7 @@ namespace Application.Features.Expenses.Queries
                     Date = e.Created,
                     Description = e.Title,
                     GroupName = e.Group.Name,
-                    Amount = e.TotalAmount,
+                    Amount = e.Amount.Amount,
                     CategoryIcon = e.Category != null ? e.Category.IconIdentifier : "💰",
                     CategoryColor = e.Category != null ? e.Category.ColorHex : "#000000"
                 })

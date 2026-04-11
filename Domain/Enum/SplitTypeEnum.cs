@@ -1,4 +1,4 @@
-﻿namespace Domain.Enum
+namespace Domain.Enum
 {
     public enum SplitTypeEnum
     {

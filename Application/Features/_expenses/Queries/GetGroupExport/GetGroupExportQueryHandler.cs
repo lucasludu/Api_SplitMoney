@@ -68,7 +68,7 @@ namespace Application.Features.Expenses.Queries.GetGroupExport
                     };
                 }
 
-                sb.AppendLine($"{exp.Created:dd/MM/yyyy},{exp.Category?.Name ?? "General"},\"{exp.Title}\",\"{payers}\",{exp.TotalAmount:N2},{splitType}");
+                sb.AppendLine($"{exp.Created:dd/MM/yyyy},{exp.Category?.Name ?? "General"},\"{exp.Title}\",\"{payers}\",{exp.Amount.Amount:N2},{splitType}");
             }
 
             sb.AppendLine();

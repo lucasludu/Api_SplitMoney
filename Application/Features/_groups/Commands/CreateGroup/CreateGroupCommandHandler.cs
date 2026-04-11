@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Specification._user;
 using Application.Wrappers;
 using Domain.Entities;
+using Domain.Common;
 using MediatR;
 
 namespace Application.Features.Groups.Commands
@@ -85,9 +86,8 @@ namespace Application.Features.Groups.Commands
                 var expense = new Expense
                 {
                     Title = $"Gasto inicial: {record.Email}",
-                    TotalAmount = record.AmountSpent,
-                    GroupId = newGroup.Id,
-                    Created = DateTime.UtcNow
+                    Amount = new Money(record.AmountSpent, request.DefaultCurrency),
+                    GroupId = newGroup.Id
                 };
 
                 expense.Payments.Add(new ExpensePayment

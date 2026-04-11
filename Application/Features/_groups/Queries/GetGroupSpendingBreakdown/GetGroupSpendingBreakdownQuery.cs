@@ -3,7 +3,7 @@ using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Models.Response._groups;
+using Application.Features._groups.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace Application.Features.Groups.Queries
                 .Where(s => s.GroupId == request.GroupId && s.IsActive)
                 .ToListAsync(cancellationToken);
 
-            var totalSpending = expenses.Sum(e => e.TotalAmount);
+            var totalSpending = expenses.Sum(e => e.Amount.Amount);
 
             // Calcular balances simplificados para obtener la posición neta de cada uno
             var simplifiedBalances = _balanceEngine.CalculateSimplifiedBalances(request.GroupId, expenses, settlements);
@@ -63,7 +63,7 @@ namespace Application.Features.Groups.Queries
                     var userId = gm.UserId;
                     
                     // Conteo de transacciones en las que participa (pagó o se le dividió)
-                    var count = expenses.Count(e => e.PayerId == userId || e.Splits.Any(s => s.UserId == userId));
+                    var count = expenses.Count(e => e.Payments.Any(p => p.UserId == userId) || e.Splits.Any(s => s.UserId == userId));
 
                     // Balance Neto: (Lo que otros le deben) - (Lo que él debe)
                     var owedToHim = simplifiedBalances.Where(b => b.CreditorId == userId).Sum(b => b.Amount);

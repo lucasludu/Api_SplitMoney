@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Wrappers;
 using Domain.Entities;
 using Domain.Enum;
+using Domain.Common;
 using MediatR;
 
 namespace Application.Features.Expenses.Commands.CreateExpense
@@ -22,11 +23,9 @@ namespace Application.Features.Expenses.Commands.CreateExpense
             {
                 GroupId = request.Request.GroupId,
                 Title = request.Request.Title,
-                TotalAmount = request.Request.TotalAmount,
-                Currency = request.Request.Currency,
+                Amount = new Money(request.Request.TotalAmount, request.Request.Currency),
                 Date = request.Request.Date,
-                CategoryId = request.Request.CategoryId,
-                PayerId = request.Request.PayerId ?? request.Request.Payments.FirstOrDefault()?.UserId ?? string.Empty
+                CategoryId = request.Request.CategoryId
             };
             
             // Process Payers (Multiple or Single)

@@ -1,6 +1,6 @@
 using Application.Wrappers;
 using MediatR;
-using Models.Request._expenses;
+using Application.Features._expenses.DTOs;
 
 namespace Application.Features.Expenses.Commands.CreateExpense
 {

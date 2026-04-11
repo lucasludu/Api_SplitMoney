@@ -1,4 +1,4 @@
-﻿namespace Models.Response._balance
+namespace Application.Features._expenses.DTOs
 {
     public class BalanceResponse
     {
