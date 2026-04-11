@@ -1,4 +1,4 @@
-using Application.Features._auth.Commands.UpgradeToPremium;
+using Application.Features._auth.Commands.UpgradeToPremiumCommands;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

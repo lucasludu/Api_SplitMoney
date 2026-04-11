@@ -2,10 +2,6 @@ using Application.Interfaces;
 using Application.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Features.Expenses.Queries.GetSpendingSummary
 {

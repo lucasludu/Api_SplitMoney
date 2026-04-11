@@ -1,6 +1,5 @@
-using MediatR;
 using Application.Wrappers;
-using System;
+using MediatR;
 
 namespace Application.Features.Expenses.Queries.GetSpendingSummary
 {

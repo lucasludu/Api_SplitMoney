@@ -4,88 +4,94 @@ namespace Domain.Services
 {
     public class BalanceDomainService
     {
+        private const decimal Epsilon = 0.01m; // Evitamos números mágicos y problemas de redondeo
+
         public List<Balance> CalculateSimplifiedBalances(Guid groupId, IEnumerable<Expense> expenses, IEnumerable<Settlement> settlements)
         {
-            // Calculate total paid per user
-            var totalPaidByUsers = expenses
-                .SelectMany(e => e.Payments ?? new List<ExpensePayment>())
-                .GroupBy(p => p.UserId)
-                .ToDictionary(g => g.Key, g => g.Sum(p => p.AmountPaid));
+            // 1. Calculamos cuánto ha puesto y cuánto debe cada uno (Neto)
+            var netBalances = GetNetBalancesPerUser(expenses, settlements);
 
-            // Calculate total owed per user
-            var totalOwedByUsers = expenses
-                .SelectMany(e => e.Splits ?? new List<ExpenseSplit>())
-                .GroupBy(s => s.UserId)
-                .ToDictionary(g => g.Key, g => g.Sum(s => s.AmountOwed));
-
-            // Adjustments from settlements
-            var totalSettledPayment = settlements
-                .GroupBy(s => s.PayerId)
-                .ToDictionary(g => g.Key, g => g.Sum(s => s.Amount.Amount));
-
-            var totalSettledReceipt = settlements
-                .GroupBy(s => s.PayeeId)
-                .ToDictionary(g => g.Key, g => g.Sum(s => s.Amount.Amount));
-
-            // Get all unique users
-            var allUserIds = totalPaidByUsers.Keys
-                .Union(totalOwedByUsers.Keys)
-                .Union(totalSettledPayment.Keys)
-                .Union(totalSettledReceipt.Keys)
-                .Distinct();
-
-            // Net balance = (Paid + SettledAsPayer) - (Owed + SettledAsPayee)
-            var netBalances = allUserIds.ToDictionary(
-                userId => userId,
-                userId => (totalPaidByUsers.GetValueOrDefault(userId) + totalSettledPayment.GetValueOrDefault(userId)) - 
-                          (totalOwedByUsers.GetValueOrDefault(userId) + totalSettledReceipt.GetValueOrDefault(userId))
-            );
-
-            // Separate debtors (negative balance) and creditors (positive balance)
-            var debtors = netBalances.Where(x => x.Value < -0.01m)
-                                     .Select(x => new UserBalance { UserId = x.Key, Amount = Math.Abs(x.Value) })
+            // 2. Clasificamos en Deudores (pagan) y Acreedores (reciben)
+            var debtors = netBalances.Where(x => x.Value < -Epsilon)
+                                     .Select(x => new UserBalance(x.Key, Math.Abs(x.Value)))
                                      .OrderByDescending(x => x.Amount).ToList();
 
-            var creditors = netBalances.Where(x => x.Value > 0.01m)
-                                       .Select(x => new UserBalance { UserId = x.Key, Amount = x.Value })
+            var creditors = netBalances.Where(x => x.Value > Epsilon)
+                                       .Select(x => new UserBalance(x.Key, x.Value))
                                        .OrderByDescending(x => x.Amount).ToList();
 
-            var simplifiedBalances = new List<Balance>();
+            // 3. Ejecutamos el algoritmo de simplificación
+            return SimplifyDebts(groupId, debtors, creditors);
+        }
 
-            // Simplify debts (Greedy approach)
+        private Dictionary<string, decimal> GetNetBalancesPerUser(IEnumerable<Expense> expenses, IEnumerable<Settlement> settlements)
+        {
+            var balances = new Dictionary<string, decimal>();
+
+            // Sumar lo pagado en gastos y restar lo debido
+            foreach (var expense in expenses)
+            {
+                foreach (var p in expense.Payments ?? Enumerable.Empty<ExpensePayment>())
+                    UpdateBalance(balances, p.UserId, p.AmountPaid);
+
+                foreach (var s in expense.Splits ?? Enumerable.Empty<ExpenseSplit>())
+                    UpdateBalance(balances, s.UserId, -s.AmountOwed);
+            }
+
+            // Ajustar con las liquidaciones (settlements) ya realizadas
+            foreach (var s in settlements)
+            {
+                UpdateBalance(balances, s.PayerId, s.Amount.Amount);
+                UpdateBalance(balances, s.PayeeId, -s.Amount.Amount);
+            }
+
+            return balances;
+        }
+
+        private void UpdateBalance(Dictionary<string, decimal> dict, string userId, decimal amount)
+        {
+            if (string.IsNullOrEmpty(userId)) return;
+            dict[userId] = dict.GetValueOrDefault(userId) + amount;
+        }
+
+        private List<Balance> SimplifyDebts(Guid groupId, List<UserBalance> debtors, List<UserBalance> creditors)
+        {
+            var results = new List<Balance>();
             int d = 0, c = 0;
+
             while (d < debtors.Count && c < creditors.Count)
             {
                 var debtor = debtors[d];
                 var creditor = creditors[c];
-                var amount = Math.Min(debtor.Amount, creditor.Amount);
+                var amountToTransfer = Math.Min(debtor.Amount, creditor.Amount);
 
-                if (amount > 0.01m)
+                if (amountToTransfer > Epsilon)
                 {
-                    simplifiedBalances.Add(new Balance
+                    results.Add(new Balance
                     {
                         Id = Guid.NewGuid(),
                         GroupId = groupId,
                         DebtorId = debtor.UserId,
                         CreditorId = creditor.UserId,
-                        Amount = amount
+                        Amount = amountToTransfer
                     });
                 }
 
-                debtor.Amount -= amount;
-                creditor.Amount -= amount;
+                debtor.Amount -= amountToTransfer;
+                creditor.Amount -= amountToTransfer;
 
-                if (debtor.Amount < 0.01m) d++;
-                if (creditor.Amount < 0.01m) c++;
+                if (debtor.Amount < Epsilon) d++;
+                if (creditor.Amount < Epsilon) c++;
             }
 
-            return simplifiedBalances;
+            return results;
         }
 
         private class UserBalance
         {
-            public string UserId { get; set; } = string.Empty;
+            public string UserId { get; }
             public decimal Amount { get; set; }
+            public UserBalance(string userId, decimal amount) { UserId = userId; Amount = amount; }
         }
     }
 }

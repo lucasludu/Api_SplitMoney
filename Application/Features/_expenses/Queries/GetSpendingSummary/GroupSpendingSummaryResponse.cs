@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Application.Features.Expenses.Queries.GetSpendingSummary
 {
     public class GroupSpendingSummaryResponse

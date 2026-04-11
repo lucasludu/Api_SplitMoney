@@ -2,10 +2,8 @@ using Application.Interfaces;
 using Application.Wrappers;
 using MediatR;
 
-namespace Application.Features._auth.Commands.UpgradeToPremium
+namespace Application.Features._auth.Commands.UpgradeToPremiumCommands
 {
-    public record UpgradeToPremiumCommand : IRequest<Response<string>>;
-
     public class UpgradeToPremiumCommandHandler : IRequestHandler<UpgradeToPremiumCommand, Response<string>>
     {
         private readonly IAuthService _authService;

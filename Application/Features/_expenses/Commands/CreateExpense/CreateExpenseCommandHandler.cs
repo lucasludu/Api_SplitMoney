@@ -1,84 +1,89 @@
 using Application.Features.Expenses.Commands.CreateExpense;
 using Application.Interfaces;
 using Application.Wrappers;
+using Domain.Common;
 using Domain.Entities;
 using Domain.Enum;
-using Domain.Common;
 using MediatR;
 
-namespace Application.Features.Expenses.Commands.CreateExpense
+public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Response<Guid>>
 {
-    public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Response<Guid>>
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateExpenseCommandHandler(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
+        _unitOfWork = unitOfWork;
+    }
 
-        public CreateExpenseCommandHandler(IUnitOfWork unitOfWork)
+    public async Task<Response<Guid>> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+    {
+        var expense = new Expense
         {
-            _unitOfWork = unitOfWork;
-        }
+            GroupId = request.Request.GroupId,
+            Title = request.Request.Title,
+            Amount = new Money(request.Request.TotalAmount, request.Request.Currency),
+            Date = request.Request.Date,
+            CategoryId = request.Request.CategoryId
+        };
 
-        public async Task<Response<Guid>> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+        // Extraemos la lógica a métodos especializados
+        ProcessPayments(expense, request);
+        ProcessSplits(expense, request);
+
+        var newExpense = await _unitOfWork.RepositoryAsync<Expense>().AddAsync(expense);
+        await _unitOfWork.SaveChangesAsync();
+
+        return new Response<Guid>(newExpense.Id, "Gasto creado correctamente.");
+    }
+
+    // --- MÉTODOS PRIVADOS ---
+
+    private void ProcessPayments(Expense expense, CreateExpenseCommand request)
+    {
+        if (request.Request.Payments != null && request.Request.Payments.Any())
         {
-            var expense = new Expense
-            {
-                GroupId = request.Request.GroupId,
-                Title = request.Request.Title,
-                Amount = new Money(request.Request.TotalAmount, request.Request.Currency),
-                Date = request.Request.Date,
-                CategoryId = request.Request.CategoryId
-            };
-            
-            // Process Payers (Multiple or Single)
-            if (request.Request.Payments != null && request.Request.Payments.Any())
-            {
-                foreach (var paymentDto in request.Request.Payments)
-                {
-                    expense.Payments.Add(new ExpensePayment
-                    {
-                        UserId = paymentDto.UserId,
-                        AmountPaid = paymentDto.AmountPaid
-                    });
-                }
-            }
-            else if (!string.IsNullOrEmpty(request.Request.PayerId))
+            foreach (var paymentDto in request.Request.Payments)
             {
                 expense.Payments.Add(new ExpensePayment
                 {
-                    UserId = request.Request.PayerId,
-                    AmountPaid = request.Request.TotalAmount
+                    UserId = paymentDto.UserId,
+                    AmountPaid = paymentDto.AmountPaid
                 });
             }
-
-            foreach (var splitDto in request.Request.Splits)
+        }
+        else if (!string.IsNullOrEmpty(request.Request.PayerId))
+        {
+            expense.Payments.Add(new ExpensePayment
             {
-                var amountOwed = 0m;
-                if (splitDto.SplitType == SplitTypeEnum.Equal)
-                {
-                    amountOwed = request.Request.TotalAmount / request.Request.Splits.Count;
-                }
-                else if (splitDto.SplitType == SplitTypeEnum.Percentage)
-                {
-                    amountOwed = request.Request.TotalAmount * (splitDto.SplitValue / 100m);
-                }
-                else
-                {
-                    amountOwed = splitDto.SplitValue;
-                }
-
-                expense.Splits.Add(new ExpenseSplit
-                {
-                    UserId = splitDto.UserId,
-                    SplitType = splitDto.SplitType,
-                    SplitValue = splitDto.SplitValue,
-                    AmountOwed = amountOwed
-                });
-            }
-
-            var newExpense = await _unitOfWork.RepositoryAsync<Expense>().AddAsync(expense);
-            await _unitOfWork.SaveChangesAsync();    
-
-            return new Response<Guid>(newExpense.Id, "Gasto creado correctamente.");
+                UserId = request.Request.PayerId,
+                AmountPaid = request.Request.TotalAmount
+            });
         }
     }
 
+    private void ProcessSplits(Expense expense, CreateExpenseCommand request)
+    {
+        foreach (var splitDto in request.Request.Splits)
+        {
+            decimal amountOwed = CalculateAmountOwed(splitDto, request.Request.TotalAmount, request.Request.Splits.Count);
+
+            expense.Splits.Add(new ExpenseSplit
+            {
+                UserId = splitDto.UserId,
+                SplitType = splitDto.SplitType,
+                SplitValue = splitDto.SplitValue,
+                AmountOwed = amountOwed
+            });
+        }
+    }
+
+    private decimal CalculateAmountOwed(dynamic splitDto, decimal totalAmount, int totalSplits)
+    {
+        return splitDto.SplitType switch
+        {
+            SplitTypeEnum.Equal => totalAmount / totalSplits,
+            SplitTypeEnum.Percentage => totalAmount * (splitDto.SplitValue / 100m),
+            _ => splitDto.SplitValue // Default para monto fijo
+        };
+    }
 }

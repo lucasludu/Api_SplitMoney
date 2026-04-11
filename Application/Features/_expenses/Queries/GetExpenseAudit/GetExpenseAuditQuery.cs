@@ -1,6 +1,5 @@
 using Application.Wrappers;
 using MediatR;
-using System;
 
 namespace Application.Features.Expenses.Queries
 {

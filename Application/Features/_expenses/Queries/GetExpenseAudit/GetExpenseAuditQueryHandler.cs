@@ -1,11 +1,10 @@
 using Application.Constants;
 using Application.Exceptions;
 using Application.Interfaces;
+using Application.Specification._expenses;
 using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Application.Specification._expenses;
 
 namespace Application.Features.Expenses.Queries.GetExpenseAudit
 {
