@@ -9,10 +9,12 @@ using MediatR;
 public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Response<Guid>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IAuthenticatedUserService _authenticatedUser;
 
-    public CreateExpenseCommandHandler(IUnitOfWork unitOfWork)
+    public CreateExpenseCommandHandler(IUnitOfWork unitOfWork, IAuthenticatedUserService authenticatedUser)
     {
         _unitOfWork = unitOfWork;
+        _authenticatedUser = authenticatedUser;
     }
 
     public async Task<Response<Guid>> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
@@ -31,6 +33,18 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
         ProcessSplits(expense, request);
 
         var newExpense = await _unitOfWork.RepositoryAsync<Expense>().AddAsync(expense);
+        
+        // --- Registro de Auditoría Inicial ---
+        var audit = new ExpenseAudit
+        {
+            ExpenseId = newExpense.Id,
+            Action = "Gasto Creado",
+            NewValue = $"{request.Request.Title} - {request.Request.TotalAmount:C2}",
+            ModifiedByUserId = _authenticatedUser.UserId,
+            ChangeDate = DateTime.UtcNow
+        };
+        await _unitOfWork.RepositoryAsync<ExpenseAudit>().AddAsync(audit);
+        
         await _unitOfWork.SaveChangesAsync();
 
         return new Response<Guid>(newExpense.Id, "Gasto creado correctamente.");

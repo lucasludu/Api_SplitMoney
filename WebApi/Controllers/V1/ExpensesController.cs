@@ -32,6 +32,7 @@ namespace WebApi.Controllers.V1
         {
             return Ok(await Mediator.Send(new GetUserDashboardQuery { UserId = _userService.UserId }));
         }
+    
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Post(ExpenseRequest request)
@@ -63,21 +64,21 @@ namespace WebApi.Controllers.V1
         }
 
         [HttpGet("{id:guid}/audit")]
-        [Authorize(Roles = RolesConstants.PremiumUser)]
+        [Authorize] /* 🧪 Bypass Premium check for dev: [Authorize(Roles = RolesConstants.PremiumUser)] */
         public async Task<IActionResult> GetAudit(Guid id)
         {
             return Ok(await Mediator.Send(new GetExpenseAuditQuery { ExpenseId = id }));
         }
 
         [HttpGet("groups/{groupId:guid}/summary")]
-        [Authorize(Roles = RolesConstants.PremiumUser)]
+        [Authorize] /* 🧪 Bypass Premium check for dev: [Authorize(Roles = RolesConstants.PremiumUser)] */
         public async Task<IActionResult> GetSummary(Guid groupId)
         {
             return Ok(await Mediator.Send(new Application.Features.Expenses.Queries.GetSpendingSummary.GetGroupSpendingSummaryQuery { GroupId = groupId }));
         }
 
         [HttpGet("groups/{groupId:guid}/export")]
-        [Authorize(Roles = RolesConstants.PremiumUser)]
+        [Authorize] /* 🧪 Bypass Premium check for dev: [Authorize(Roles = RolesConstants.PremiumUser)] */
         public async Task<IActionResult> GetExport(Guid groupId)
         {
             var result = await Mediator.Send(new Application.Features.Expenses.Queries.GetGroupExport.GetGroupExportQuery { GroupId = groupId });

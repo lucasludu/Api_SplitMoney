@@ -33,10 +33,10 @@ namespace Application.Features.Groups.Commands
                 var spec = new ActiveGroupsByUserCountSpecification(userId);
                 var activeGroupsCount = await _unitOfWork.RepositoryAsync<GroupMember>().CountAsync(spec, cancellationToken);
                 if (activeGroupsCount >= 3)
-                    throw new PremiumLimitException("grupos activos", 3);
+                    return Response<Guid>.Fail("Has alcanzado el límite de grupos activos para usuarios Free. Considera actualizar a Premium para crear más grupos.");
 
                 if (request.InitialMembers.Count + 1 > 5)
-                    throw new PremiumLimitException("miembros por grupo", 5);
+                    return Response<Guid>.Fail("Has alcanzado el límite de miembros por grupo para usuarios Free. Considera actualizar a Premium para agregar más miembros.");
             }
 
             // Resolve emails to actual User IDs and build members list
@@ -44,7 +44,9 @@ namespace Application.Features.Groups.Commands
             
             // Add creator
             var creator = await _unitOfWork.RepositoryAsync<ApplicationUser>().GetByIdAsync(userId);
-            if (creator == null) throw new ApplicationException("Usuario creador no encontrado.");
+            if (creator == null) 
+                return Response<Guid>.Fail("Usuario creador no encontrado.");
+           
             memberDict[creator.Email!] = userId;
             
             foreach (var record in request.InitialMembers)

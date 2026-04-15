@@ -11,6 +11,7 @@ namespace WebApi.Controllers.V1
     [ApiVersion("1.0")]
     public class AuthController : BaseApiController
     {
+
         /// <summary>
         /// Login a user
         /// </summary>
@@ -70,5 +71,6 @@ namespace WebApi.Controllers.V1
                 ? BadRequest(result)
                 : Ok(result);
         }
+   
     }
 }

@@ -19,6 +19,12 @@ namespace WebApi.Controllers.V1
             return Ok(await Mediator.Send(new GetMyProfileQuery()));
         }
 
+        [HttpGet("me/settlements")]
+        public async Task<IActionResult> GetMySettlements()
+        {
+            return Ok(await Mediator.Send(new Application.Features.Groups.Queries.GetMySettlementsQuery()));
+        }
+
         /// <summary>
         /// Busca usuarios por nombre o email para agregar a grupos
         /// </summary>

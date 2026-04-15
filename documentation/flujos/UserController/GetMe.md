@@ -1,8 +1,1 @@
-Error en generación Gemini: litellm.NotFoundError: GeminiException - {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
-. All fallback attempts failed. Enable verbose logging with `litellm.set_verbose=True` for details.
+Error en generación Gemini: litellm.APIConnectionError: GeminiException - Cannot connect to host generativelanguage.googleapis.com:443 ssl:<ssl.SSLContext object at 0x0000014496A818D0> [getaddrinfo failed]. All fallback attempts failed. Enable verbose logging with `litellm.set_verbose=True` for details.
