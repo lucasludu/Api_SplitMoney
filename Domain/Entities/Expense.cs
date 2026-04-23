@@ -10,6 +10,7 @@ namespace Domain.Entities
         public string Title { get; set; } = string.Empty;
         public Money Amount { get; set; } = null!;
         public decimal? ExchangeRateToGroupCurrency { get; set; } 
+        public bool IsConfirmed { get; set; } = false;
 
         public DateTime Date { get; set; }
         public string? ReceiptUrl { get; set; } 

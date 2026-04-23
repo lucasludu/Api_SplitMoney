@@ -25,12 +25,24 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
             Title = request.Request.Title,
             Amount = new Money(request.Request.TotalAmount, request.Request.Currency),
             Date = request.Request.Date,
-            CategoryId = request.Request.CategoryId
+            CategoryId = request.Request.CategoryId,
+            IsConfirmed = true
         };
 
-        // Extraemos la lógica a métodos especializados
         ProcessPayments(expense, request);
         ProcessSplits(expense, request);
+
+        // Identificar si hay otros usuarios involucrados que deban confirmar
+        var participants = expense.Splits.Select(s => s.UserId)
+            .Union(expense.Payments.Select(p => p.UserId))
+            .Where(id => id != _authenticatedUser.UserId)
+            .Distinct()
+            .ToList();
+
+        if (participants.Any())
+        {
+            expense.IsConfirmed = false;
+        }
 
         var newExpense = await _unitOfWork.RepositoryAsync<Expense>().AddAsync(expense);
         
@@ -44,10 +56,25 @@ public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand,
             ChangeDate = DateTime.UtcNow
         };
         await _unitOfWork.RepositoryAsync<ExpenseAudit>().AddAsync(audit);
+
+        // --- Crear Notificaciones ---
+        foreach (var userId in participants)
+        {
+            var notification = new Notification
+            {
+                UserId = userId,
+                Message = $"{_authenticatedUser.UserName ?? "Un usuario"} ha compartido un gasto contigo: {request.Request.Title}",
+                Type = NotificationTypeEnum.ExpenseConfirmation,
+                RelatedId = newExpense.Id,
+                CreatedAt = DateTime.UtcNow,
+                IsRead = false
+            };
+            await _unitOfWork.RepositoryAsync<Notification>().AddAsync(notification);
+        }
         
         await _unitOfWork.SaveChangesAsync();
 
-        return new Response<Guid>(newExpense.Id, "Gasto creado correctamente.");
+        return new Response<Guid>(newExpense.Id, expense.IsConfirmed ? "Gasto creado correctamente." : "Gasto creado y pendiente de confirmación.");
     }
 
     // --- MÉTODOS PRIVADOS ---

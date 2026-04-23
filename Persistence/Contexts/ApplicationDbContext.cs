@@ -19,6 +19,7 @@ namespace Persistence.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<ExpenseAudit> ExpenseAudits { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         private readonly Persistence.Interceptors.AuditableEntityInterceptor? _auditableEntityInterceptor;
 

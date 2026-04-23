@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features._expenses.DTOs;
 
+using Application.Features.Expenses.Commands.ConfirmExpense;
+
 namespace WebApi.Controllers.V1
 {
     [ApiVersion("1.0")]
@@ -17,6 +19,13 @@ namespace WebApi.Controllers.V1
         public ExpensesController(IAuthenticatedUserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpPost("{id:guid}/confirm")]
+        [Authorize]
+        public async Task<IActionResult> Confirm(Guid id)
+        {
+            return Ok(await Mediator.Send(new ConfirmExpenseCommand { ExpenseId = id }));
         }
 
         [HttpGet("{id:guid}")]
