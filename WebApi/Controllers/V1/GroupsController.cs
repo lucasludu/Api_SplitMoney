@@ -51,5 +51,12 @@ namespace WebApi.Controllers.V1
         {
             return Ok(await Mediator.Send(command));
         }
+
+        [HttpDelete("{groupId:guid}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid groupId)
+        {
+            return Ok(await Mediator.Send(new DeleteGroupCommand(groupId)));
+        }
     }
 }
