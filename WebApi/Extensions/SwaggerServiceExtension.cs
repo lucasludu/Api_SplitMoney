@@ -9,22 +9,32 @@ namespace WebApi.Extensions
         {
             services.AddSwaggerGen(variable =>
             {
-                variable.SwaggerDoc("v1", new OpenApiInfo
+                // Removido el documento v1 que mostraba todos los endpoints juntos
+
+                // Registrar dinámicamente un documento por cada controlador
+                var controllerTypes = typeof(Program).Assembly.GetTypes()
+                    .Where(type => typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type) && !type.IsAbstract);
+
+                foreach (var type in controllerTypes)
                 {
-                    Title = "SplitMoney API",
-                    Description = "Expense Sharing API",
-                    Version = "v1",
-                    Contact = new OpenApiContact
+                    var controllerName = type.Name.Replace("Controller", "");
+                    variable.SwaggerDoc(controllerName, new OpenApiInfo
                     {
-                        Name = "LucasLudu",
-                        Email = "lucas@gmail.com",
-                        Url = new Uri("https://www.google.com.ar/")
-                    },
-                    License = new OpenApiLicense
+                        Title = $"SplitMoney API - {controllerName}",
+                        Description = $"Endpoints relacionados con {controllerName}",
+                        Version = "v1"
+                    });
+                }
+
+                // Filtrar endpoints según el documento seleccionado
+                variable.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    if (apiDesc.ActionDescriptor.RouteValues.TryGetValue("controller", out var controllerName))
                     {
-                        Name = "MIT",
-                        Url = new Uri("https://opensource.org/licenses/MIT")
+                        return string.Equals(controllerName, docName, StringComparison.OrdinalIgnoreCase);
                     }
+
+                    return false;
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

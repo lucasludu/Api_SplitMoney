@@ -1,5 +1,4 @@
 using Application.Interfaces;
-using Domain.Common;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -60,24 +59,6 @@ namespace Persistence.Contexts
                     v => (decimal)v
                 ));
             }
-
-            modelBuilder.Entity<Expense>(entity =>
-            {
-                entity.OwnsOne(e => e.Amount, a =>
-                {
-                    a.Property(p => p.Amount).HasColumnName("TotalAmount");
-                    a.Property(p => p.Currency).HasColumnName("Currency").HasMaxLength(3);
-                });
-            });
-
-            modelBuilder.Entity<Settlement>(entity =>
-            {
-                entity.OwnsOne(s => s.Amount, a =>
-                {
-                    a.Property(p => p.Amount).HasColumnName("Amount");
-                    a.Property(p => p.Currency).HasColumnName("Currency").HasMaxLength(3);
-                });
-            });
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

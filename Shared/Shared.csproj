@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.7" />
   </ItemGroup>
 
   <ItemGroup>

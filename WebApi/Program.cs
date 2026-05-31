@@ -25,6 +25,20 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.PostConfigure<Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIOptions>(options =>
+{
+    options.ConfigObject.Urls = null; // Limpiar cualquier configuración previa (ej. de ApiExplorer)
+    
+    var controllerTypes = typeof(Program).Assembly.GetTypes()
+        .Where(type => typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type) && !type.IsAbstract);
+
+    foreach (var type in controllerTypes)
+    {
+        var controllerName = type.Name.Replace("Controller", "");
+        options.SwaggerEndpoint($"/swagger/{controllerName}/swagger.json", controllerName);
+    }
+});
+
 var app = builder.Build();
 
 app.UseCors("AllowAll");
@@ -36,12 +50,12 @@ using (var scope = app.Services.CreateScope())
     await CategorySeed.SeedAsync(services);
 }
 
-// Middleware para redirigir "/" a "/swagger" sin generar un endpoint visible en Swagger
+// Middleware para redirigir "/" a "/api-docs" sin generar un endpoint visible en Swagger
 app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/")
     {
-        context.Response.Redirect("/swagger");
+        context.Response.Redirect("/api-docs");
         return;
     }
     await next();
@@ -52,6 +66,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(variable =>
     {
+        variable.RoutePrefix = "api-docs";
         variable.DefaultModelsExpandDepth(-1);
     });
 }
