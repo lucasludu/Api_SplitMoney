@@ -45,6 +45,13 @@ namespace WebApi.Controllers.V1
             return Ok(await Mediator.Send(new GetGroupSpendingBreakdownQuery(groupId)));
         }
 
+        [HttpGet("{groupId:guid}/simplified-debts")]
+        [Authorize]
+        public async Task<IActionResult> GetSimplifiedDebts(Guid groupId)
+        {
+            return Ok(await Mediator.Send(new GetSimplifiedDebtsQuery(groupId)));
+        }
+
         [HttpPost("settle")]
         [Authorize]
         public async Task<IActionResult> PostSettle(CreateSettlementCommand command)
