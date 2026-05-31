@@ -7,6 +7,8 @@ using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 builder.Services.AddApplicationLayer();
 builder.Services.AddPersistenceInfraestructure(builder.Configuration);
@@ -40,6 +42,8 @@ builder.Services.PostConfigure<Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIOptions
 });
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 app.UseCors("AllowAll");
 

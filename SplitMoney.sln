@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{450B2DBF-272A-4956-A109-7F0FBDDE369F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api_SplitMoney.ServiceDefaults", "Api_SplitMoney.ServiceDefaults\Api_SplitMoney.ServiceDefaults.csproj", "{505223E5-D96A-406E-A27B-F18F1B15C444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api_SplitMoney.AppHost", "Api_SplitMoney.AppHost\Api_SplitMoney.AppHost.csproj", "{AAFBE020-9555-4209-A5D2-0A2422B5227B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +95,30 @@ Global
 		{450B2DBF-272A-4956-A109-7F0FBDDE369F}.Release|x64.Build.0 = Release|Any CPU
 		{450B2DBF-272A-4956-A109-7F0FBDDE369F}.Release|x86.ActiveCfg = Release|Any CPU
 		{450B2DBF-272A-4956-A109-7F0FBDDE369F}.Release|x86.Build.0 = Release|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Debug|x64.Build.0 = Debug|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Debug|x86.Build.0 = Debug|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Release|x64.ActiveCfg = Release|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Release|x64.Build.0 = Release|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Release|x86.ActiveCfg = Release|Any CPU
+		{505223E5-D96A-406E-A27B-F18F1B15C444}.Release|x86.Build.0 = Release|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Debug|x64.Build.0 = Debug|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Debug|x86.Build.0 = Debug|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Release|x64.ActiveCfg = Release|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Release|x64.Build.0 = Release|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AAFBE020-9555-4209-A5D2-0A2422B5227B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,7 +13,7 @@ namespace Persistence.Configurations
             builder.Property(c => c.ColorHex).IsRequired().HasMaxLength(7);
 
             builder.HasOne(c => c.User)
-                .WithMany()
+                .WithMany(u => u.CustomCategories)
                 .HasForeignKey(c => c.ApplicationUserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

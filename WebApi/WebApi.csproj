@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Api_SplitMoney.ServiceDefaults\Api_SplitMoney.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>
