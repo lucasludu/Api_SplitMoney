@@ -57,6 +57,48 @@ namespace Persistence.Service
                 );
         }
 
+        public async Task<Response<LoginResponse>> AuthenticateExternalAsync(ExternalAuthRequest request, CancellationToken cancellationToken)
+        {
+            // Mock validation: "mock-[provider]-token:[email]"
+            if (string.IsNullOrEmpty(request.IdToken) || !request.IdToken.StartsWith($"mock-{request.Provider.ToLower()}-token:"))
+                return Response<LoginResponse>.Fail("Invalid external token.");
+
+            var email = request.IdToken.Split(':')[1];
+            if (string.IsNullOrEmpty(email))
+                return Response<LoginResponse>.Fail("Invalid external token format.");
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // Create user transparently
+                var firstName = email.Split('@')[0];
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FirstName = firstName,
+                    LastName = string.Empty
+                };
+
+                var result = await _userManager.CreateAsync(user, $"Guest_{Guid.NewGuid().ToString().Substring(0, 8)}!");
+                if (!result.Succeeded)
+                    return Response<LoginResponse>.Fail("Error al crear usuario externo.");
+
+                await EnsureRoleAndAssignAsync(user, RolesConstants.User);
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var rol = roles.FirstOrDefault();
+
+            var token = await GenerateJwtTokenAsync(user);
+            var refreshToken = await GenerateRefreshTokenAsync(user);
+
+            return new Response<LoginResponse>(
+                    new LoginResponse { Token = token, RefreshToken = refreshToken.Token, UserId = user.Id, Rol = rol! },
+                    $"Usuario {user.FirstName} logueado correctamente con {request.Provider}."
+                );
+        }
+
         public async Task<Response<LoginResponse>> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var user = await _userManager.Users

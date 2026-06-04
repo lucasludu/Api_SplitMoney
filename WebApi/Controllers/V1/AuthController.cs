@@ -5,6 +5,8 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features._auth.DTOs.Request;
 using Application.Features._auth.Commands.LogoutCommands;
+using Application.Features._auth.Commands.AuthenticateExternalCommands;
+using Application.Features._auth.DTOs;
 
 namespace WebApi.Controllers.V1
 {
@@ -21,6 +23,21 @@ namespace WebApi.Controllers.V1
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await Mediator.Send(new LoginCommand(request));
+
+            return (!result.Succeeded)
+                ? Unauthorized(result)
+                : Ok(result);
+        }
+
+        /// <summary>
+        /// External Login (SSO Mock)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("external-login")]
+        public async Task<IActionResult> ExternalLogin([FromBody] ExternalAuthRequest request)
+        {
+            var result = await Mediator.Send(new AuthenticateExternalCommand(request));
 
             return (!result.Succeeded)
                 ? Unauthorized(result)
